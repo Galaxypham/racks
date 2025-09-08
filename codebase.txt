@@ -1,0 +1,3703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racks - Every piece in its place</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #fef7ed 0%, #fff1f2 50%, #f0f9ff 100%);
+            color: #7c2d12;
+            line-height: 1.6;
+            min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #db2777, #be185d, #a21caf);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(219, 39, 119, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Custom Racks Logo */
+        .racks-logo {
+            position: relative;
+            width: 40px;
+            height: 32px;
+        }
+
+        .racks-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 4px;
+            right: 4px;
+            height: 3px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .racks-logo::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                transparent 15%, 
+                rgba(255, 255, 255, 0.3) 15%, 
+                rgba(255, 255, 255, 0.3) 25%, 
+                transparent 25%, 
+                transparent 40%, 
+                rgba(255, 255, 255, 0.3) 40%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                transparent 50%, 
+                transparent 65%, 
+                rgba(255, 255, 255, 0.3) 65%, 
+                rgba(255, 255, 255, 0.3) 75%, 
+                transparent 75%, 
+                transparent 90%, 
+                rgba(255, 255, 255, 0.3) 90%, 
+                rgba(255, 255, 255, 0.3) 100%);
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
+            border-right: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 1px;
+        }
+
+        .racks-logo .hanger-1,
+        .racks-logo .hanger-2,
+        .racks-logo .hanger-3 {
+            position: absolute;
+            top: 2px;
+            width: 8px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1px;
+        }
+
+        .racks-logo .hanger-1 { left: 8px; }
+        .racks-logo .hanger-2 { left: 16px; }
+        .racks-logo .hanger-3 { left: 24px; }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            background: linear-gradient(45deg, #ffffff, #f8fafc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 400;
+            opacity: 0.9;
+            font-style: italic;
+            letter-spacing: 0.05em;
+            text-transform: lowercase;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .accessibility-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .accessibility-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+                 .container {
+             max-width: 1200px;
+             margin: 0 auto;
+             padding: 2rem 1rem;
+             padding-bottom: 120px; /* Space for bottom tabs */
+         }
+
+         /* Fixed Bottom Tabs */
+         .bottom-tabs {
+             position: fixed;
+             bottom: 0;
+             left: 0;
+             right: 0;
+             background: rgba(255, 255, 255, 0.95);
+             backdrop-filter: blur(20px);
+             border-top: 3px solid #fecaca;
+             box-shadow: 0 -8px 32px rgba(219, 39, 119, 0.15);
+             z-index: 1000;
+             padding: 0.5rem;
+         }
+
+         .tabs-container {
+             display: flex;
+             justify-content: space-around;
+             align-items: center;
+             max-width: 1200px;
+             margin: 0 auto;
+             gap: 0.5rem;
+         }
+
+         .tab {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             gap: 0.25rem;
+             padding: 0.75rem 0.5rem;
+             background: none;
+             border: 2px solid transparent;
+             border-radius: 12px;
+             cursor: pointer;
+             font-size: 0.875rem;
+             color: #6b7280;
+             transition: all 0.3s ease;
+             min-width: 70px;
+             flex: 1;
+             max-width: 120px;
+         }
+
+         .tab i {
+             font-size: 1.25rem;
+             margin-bottom: 0.125rem;
+         }
+
+         .tab span {
+             font-weight: 500;
+             font-size: 0.75rem;
+         }
+
+         .tab.active {
+             color: #db2777;
+             background: rgba(219, 39, 119, 0.1);
+             border-color: #db2777;
+             transform: translateY(-2px);
+             box-shadow: 0 4px 12px rgba(219, 39, 119, 0.2);
+         }
+
+         .tab:hover:not(.active) {
+             color: #be185d;
+             background: rgba(190, 24, 93, 0.05);
+             border-color: rgba(190, 24, 93, 0.3);
+             transform: translateY(-1px);
+         }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(219, 39, 119, 0.1);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f472b6;
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f472b6, #db2777);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #10b981, #059669);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(244, 114, 182, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(244, 114, 182, 0.15);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 3rem;
+        }
+
+        .item-content {
+            padding: 1rem;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .item-source {
+            font-size: 0.875rem;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-purchased { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #9a3412; border-radius: 12px; }
+        .status-washed { background: linear-gradient(135deg, #ddd6fe, #c4b5fd); color: #5b21b6; border-radius: 12px; }
+        .status-ready-to-sell { background: linear-gradient(135deg, #bbf7d0, #86efac); color: #14532d; border-radius: 12px; }
+        .status-listed { background: linear-gradient(135deg, #fce7f3, #fbcfe8); color: #be185d; border-radius: 12px; }
+        .status-sold { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; border-radius: 12px; }
+
+        .item-prices {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+
+        .price {
+            font-weight: 600;
+        }
+
+        .profit {
+            color: #059669;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .status-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .photo-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .photo-upload, .camera-option {
+            position: relative;
+            border: 2px dashed #fecaca;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .photo-upload:hover, .camera-option:hover {
+            border-color: #f472b6;
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1), rgba(219, 39, 119, 0.05));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(244, 114, 182, 0.15);
+        }
+
+        .photo-upload input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .camera-interface {
+            margin-top: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .camera-preview {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .camera-controls {
+            padding: 1rem;
+            background: #f9fafb;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .photo-result {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .photo-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .photo-actions {
+            margin-top: 0.5rem;
+        }
+
+        .photos-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border: 1px solid #fecaca;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: #f3f4f6;
+        }
+
+        .photo-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .remove-photo-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-photo-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .primary-photo-badge {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .photo-limit-message {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .pricing-option {
+            margin-bottom: 0.75rem;
+        }
+
+        .pricing-option .toggle-label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        .auto-price-info {
+            margin-top: 0.5rem;
+        }
+
+        .photo-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .photo-nav {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .photo-nav-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .photo-nav-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .photo-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .photo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-dot.active {
+            background: white;
+            transform: scale(1.25);
+        }
+
+        /* Accessible Mode Styles */
+        .accessible-mode {
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%);
+            --header-gradient: linear-gradient(135deg, #212529, #495057);
+            --primary-color: #000000;
+            --secondary-color: #495057;
+            --success-color: #000000;
+            --warning-color: #495057;
+            --danger-color: #6c757d;
+        }
+
+        body.accessible-mode {
+            background: var(--bg-gradient);
+            color: #000000;
+        }
+
+        .accessible-mode {
+            color: #000000;
+        }
+
+        .accessible-mode .header {
+            background: var(--header-gradient);
+        }
+
+        .accessible-mode .btn-primary {
+            background: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .btn-secondary {
+            background: #495057;
+            border: 2px solid #495057;
+        }
+
+        .accessible-mode .btn-success {
+            background: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .btn-danger {
+            background: #6c757d;
+            border: 2px solid #6c757d;
+        }
+
+        .accessible-mode .card {
+            background: #ffffff;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .accessible-mode .metric-card {
+            background: #ffffff;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .accessible-mode .metric-icon {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .metric-icon.profit {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .metric-icon.success {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .metric-icon.info {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode .status-purchased { 
+            background: #ffffff; 
+            color: #000000; 
+            border: 2px solid #000000;
+            position: relative;
+        }
+        
+        .accessible-mode .status-purchased::before {
+            content: "●";
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .accessible-mode .status-washed { 
+            background: #f8f9fa; 
+            color: #000000; 
+            border: 2px solid #495057;
+            position: relative;
+        }
+        
+        .accessible-mode .status-washed::before {
+            content: "■";
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .accessible-mode .status-ready-to-sell { 
+            background: #ffffff; 
+            color: #000000; 
+            border: 2px solid #000000;
+            position: relative;
+        }
+        
+        .accessible-mode .status-ready-to-sell::before {
+            content: "▲";
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .accessible-mode .status-listed { 
+            background: #e9ecef; 
+            color: #000000; 
+            border: 2px solid #6c757d;
+            position: relative;
+        }
+        
+        .accessible-mode .status-listed::before {
+            content: "♦";
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .accessible-mode .status-sold { 
+            background: #000000; 
+            color: #ffffff; 
+            border: 2px solid #000000;
+            position: relative;
+        }
+        
+        .accessible-mode .status-sold::before {
+            content: "★";
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+                 .accessible-mode .bottom-tabs {
+             background: #ffffff;
+             border-top: 3px solid #000000;
+             box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+         }
+
+         .accessible-mode .tab {
+             color: #495057;
+             background: #ffffff;
+             border: 2px solid #dee2e6;
+         }
+
+         .accessible-mode .tab.active {
+             color: #000000;
+             background: #ffffff;
+             border: 2px solid #000000;
+             font-weight: 700;
+         }
+
+         .accessible-mode .tab:hover:not(.active) {
+             color: #000000;
+             background: #f8f9fa;
+             border-color: #495057;
+         }
+
+        .accessible-mode input, 
+        .accessible-mode select, 
+        .accessible-mode textarea {
+            border: 2px solid #000000;
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .accessible-mode input:focus, 
+        .accessible-mode select:focus, 
+        .accessible-mode textarea:focus {
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .accessible-mode .photo-upload, 
+        .accessible-mode .camera-option {
+            border: 2px solid #000000;
+            background: #ffffff;
+        }
+
+        .accessible-mode .photo-upload:hover, 
+        .accessible-mode .camera-option:hover {
+            border-color: #000000;
+            background: #f8f9fa;
+        }
+
+        .accessible-mode .item-card {
+            background: #ffffff;
+            border: 2px solid #dee2e6;
+        }
+
+        .accessible-mode .progress-fill {
+            background: #000000 !important;
+        }
+
+        .accessible-mode .photo-limit-message {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+
+        .accessible-mode label {
+            color: #000000;
+        }
+
+        .accessible-mode .stat-label,
+        .accessible-mode .metric-label,
+        .accessible-mode .activity-date,
+        .accessible-mode .item-source,
+        .accessible-mode .brand-tagline {
+            color: #495057;
+        }
+
+        .accessible-mode .metric-value,
+        .accessible-mode .stat-value,
+        .accessible-mode .brand-name,
+        .accessible-mode .activity-description {
+            color: #000000;
+        }
+
+        .accessible-mode .empty-state,
+        .accessible-mode .empty-activity {
+            color: #495057;
+        }
+
+        .accessible-mode h1,
+        .accessible-mode h2,
+        .accessible-mode h3,
+        .accessible-mode h4,
+        .accessible-mode h5,
+        .accessible-mode h6 {
+            color: #000000 !important;
+        }
+
+        .accessible-mode * {
+            color: inherit;
+        }
+
+        .accessible-mode .card h2,
+        .accessible-mode .card h3 {
+            color: #000000 !important;
+        }
+
+        .accessible-mode .card h2 i,
+        .accessible-mode .card h3 i,
+        .accessible-mode h2 i,
+        .accessible-mode h3 i {
+            color: #000000 !important;
+        }
+
+        .accessible-mode .racks-logo::before {
+            background: #ffffff;
+        }
+
+        .accessible-mode .racks-logo::after {
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                transparent 15%, 
+                #ffffff 15%, 
+                #ffffff 25%, 
+                transparent 25%, 
+                transparent 40%, 
+                #ffffff 40%, 
+                #ffffff 50%, 
+                transparent 50%, 
+                transparent 65%, 
+                #ffffff 65%, 
+                #ffffff 75%, 
+                transparent 75%, 
+                transparent 90%, 
+                #ffffff 90%, 
+                #ffffff 100%);
+            border-color: #ffffff;
+        }
+
+        .accessible-mode .racks-logo .hanger-1,
+        .accessible-mode .racks-logo .hanger-2,
+        .accessible-mode .racks-logo .hanger-3 {
+            background: #ffffff;
+        }
+
+        .accessible-mode .brand-name {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .accessible-mode .tab i {
+            color: inherit;
+        }
+
+        .accessible-mode .btn i {
+            color: inherit;
+        }
+
+        .accessible-mode .remove-photo-btn {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .accessible-mode .primary-photo-badge {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(244, 114, 182, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(244, 114, 182, 0.2);
+        }
+
+        .metric-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #be185d;
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.2);
+        }
+
+        .metric-icon.profit {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #059669;
+        }
+
+        .metric-icon.success {
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            color: #7c3aed;
+        }
+
+        .metric-icon.info {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #d97706;
+        }
+
+        .metric-content {
+            flex: 1;
+        }
+
+        .metric-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1f2937;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .status-breakdown {
+            space-y: 1rem;
+        }
+
+        .status-item {
+            margin-bottom: 1rem;
+        }
+
+        .status-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .status-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .recent-activity {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .activity-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .activity-image i {
+            color: #9ca3af;
+            font-size: 1.25rem;
+        }
+
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-description {
+            font-weight: 500;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .activity-date {
+            color: #6b7280;
+        }
+
+        .activity-price {
+            font-weight: 600;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .quick-stats {
+            space-y: 0.75rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .empty-activity {
+            text-align: center;
+            padding: 2rem;
+            color: #9ca3af;
+        }
+
+        .empty-activity i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+                 .empty-state i {
+             font-size: 3rem;
+             margin-bottom: 1rem;
+             display: block;
+         }
+
+         /* Settings Tab Styles */
+         .toggle-label {
+             display: flex;
+             align-items: center;
+             gap: 0.75rem;
+             cursor: pointer;
+             font-weight: 500;
+             margin-bottom: 0.5rem;
+         }
+
+         .toggle-switch {
+             position: relative;
+             width: 48px;
+             height: 24px;
+             background: #d1d5db;
+             border-radius: 12px;
+             transition: all 0.3s ease;
+             flex-shrink: 0;
+         }
+
+         .toggle-switch::before {
+             content: '';
+             position: absolute;
+             top: 2px;
+             left: 2px;
+             width: 20px;
+             height: 20px;
+             background: white;
+             border-radius: 50%;
+             transition: all 0.3s ease;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+         }
+
+         .toggle-label input[type="checkbox"]:checked + .toggle-switch {
+             background: linear-gradient(135deg, #f472b6, #db2777);
+         }
+
+         .toggle-label input[type="checkbox"]:checked + .toggle-switch::before {
+             transform: translateX(24px);
+         }
+
+         .toggle-label input[type="checkbox"] {
+             display: none;
+         }
+
+         .radio-group {
+             display: flex;
+             flex-direction: column;
+             gap: 0.5rem;
+         }
+
+         .radio-label {
+             display: flex;
+             align-items: center;
+             gap: 0.75rem;
+             cursor: pointer;
+             padding: 0.5rem;
+             border-radius: 8px;
+             transition: all 0.3s ease;
+         }
+
+         .radio-label:hover {
+             background: rgba(244, 114, 182, 0.05);
+         }
+
+         .radio-custom {
+             position: relative;
+             width: 20px;
+             height: 20px;
+             border: 2px solid #d1d5db;
+             border-radius: 50%;
+             flex-shrink: 0;
+             transition: all 0.3s ease;
+         }
+
+         .radio-custom::before {
+             content: '';
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             width: 10px;
+             height: 10px;
+             background: linear-gradient(135deg, #f472b6, #db2777);
+             border-radius: 50%;
+             transform: translate(-50%, -50%) scale(0);
+             transition: all 0.3s ease;
+         }
+
+         .radio-label input[type="radio"]:checked + .radio-custom {
+             border-color: #f472b6;
+         }
+
+         .radio-label input[type="radio"]:checked + .radio-custom::before {
+             transform: translate(-50%, -50%) scale(1);
+         }
+
+         .radio-label input[type="radio"] {
+             display: none;
+         }
+
+         .help-text {
+             font-size: 0.875rem;
+             color: #6b7280;
+             margin-top: 0.25rem;
+             line-height: 1.4;
+         }
+
+         .pricing-settings {
+             margin-top: 1rem;
+             padding-top: 1rem;
+             border-top: 1px solid #e5e7eb;
+         }
+
+         /* Accessible mode styles for new components */
+         .accessible-mode .toggle-switch {
+             background: #495057;
+         }
+
+         .accessible-mode .toggle-label input[type="checkbox"]:checked + .toggle-switch {
+             background: #000000;
+         }
+
+         .accessible-mode .radio-custom {
+             border-color: #495057;
+         }
+
+         .accessible-mode .radio-label input[type="radio"]:checked + .radio-custom {
+             border-color: #000000;
+         }
+
+         .accessible-mode .radio-label input[type="radio"]:checked + .radio-custom::before {
+             background: #000000;
+         }
+
+         .accessible-mode .help-text {
+             color: #495057;
+         }
+
+         /* Dark Mode Styles */
+         .dark-mode {
+             --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1f1f1f 100%);
+             --header-gradient: linear-gradient(135deg, #000000, #1a1a1a, #2d2d2d);
+             --card-bg: rgba(45, 45, 45, 0.9);
+             --card-border: rgba(255, 255, 255, 0.1);
+             --text-primary: #ffffff;
+             --text-secondary: #d1d5db;
+             --text-muted: #9ca3af;
+             --border-color: #374151;
+             --input-bg: rgba(55, 65, 81, 0.8);
+             --btn-primary: linear-gradient(135deg, #6366f1, #4f46e5);
+             --btn-secondary: linear-gradient(135deg, #374151, #4b5563);
+         }
+
+         body.dark-mode {
+             background: var(--bg-gradient);
+             color: var(--text-primary);
+         }
+
+         .dark-mode .header {
+             background: var(--header-gradient);
+             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+         }
+
+         .dark-mode .card {
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
+             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+             backdrop-filter: blur(10px);
+         }
+
+         .dark-mode .tabs {
+             border-bottom: 2px solid var(--border-color);
+         }
+
+         .dark-mode .tab {
+             color: var(--text-secondary);
+             background: none;
+             border-bottom: 2px solid transparent;
+         }
+
+         .dark-mode .tab.active {
+             color: var(--text-primary);
+             border-bottom-color: #6366f1;
+             background: rgba(99, 102, 241, 0.1);
+         }
+
+         .dark-mode .tab:hover:not(.active) {
+             color: var(--text-primary);
+             background: rgba(255, 255, 255, 0.05);
+         }
+
+         .dark-mode input, 
+         .dark-mode select, 
+         .dark-mode textarea {
+             background: var(--input-bg);
+             border: 2px solid var(--border-color);
+             color: var(--text-primary);
+         }
+
+         .dark-mode input:focus, 
+         .dark-mode select:focus, 
+         .dark-mode textarea:focus {
+             border-color: #6366f1;
+             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+         }
+
+         .dark-mode .btn-primary {
+             background: var(--btn-primary);
+         }
+
+         .dark-mode .btn-secondary {
+             background: var(--btn-secondary);
+         }
+
+         .dark-mode .status-badge {
+             backdrop-filter: blur(5px);
+         }
+
+         .dark-mode .item-card {
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
+             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+         }
+
+         .dark-mode .metric-card {
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
+             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+         }
+
+         .dark-mode .metric-icon {
+             background: rgba(99, 102, 241, 0.2);
+             color: #a5b4fc;
+         }
+
+         .dark-mode .photo-upload, 
+         .dark-mode .camera-option {
+             background: var(--input-bg);
+             border: 2px dashed var(--border-color);
+         }
+
+         .dark-mode .photo-upload:hover, 
+         .dark-mode .camera-option:hover {
+             border-color: #6366f1;
+             background: rgba(99, 102, 241, 0.1);
+         }
+
+         .dark-mode .bottom-tabs {
+             background: rgba(45, 45, 45, 0.95);
+             border-top-color: var(--border-color);
+             box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+         }
+
+         .dark-mode .tab {
+             color: var(--text-secondary);
+         }
+
+         .dark-mode .tab.active {
+             color: #a5b4fc;
+             background: rgba(99, 102, 241, 0.2);
+             border-color: #6366f1;
+         }
+
+         .dark-mode .tab:hover:not(.active) {
+             color: var(--text-primary);
+             background: rgba(255, 255, 255, 0.05);
+             border-color: rgba(255, 255, 255, 0.2);
+         }
+
+         .dark-mode label {
+             color: var(--text-secondary);
+         }
+
+         .dark-mode .help-text {
+             color: var(--text-muted);
+         }
+
+         .dark-mode .stat-label,
+         .dark-mode .metric-label,
+         .dark-mode .activity-date,
+         .dark-mode .item-source {
+             color: var(--text-muted);
+         }
+
+         .dark-mode .metric-value,
+         .dark-mode .stat-value,
+         .dark-mode .activity-description {
+             color: var(--text-primary);
+         }
+
+         .dark-mode h1, .dark-mode h2, .dark-mode h3, 
+         .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+             color: var(--text-primary);
+         }
+
+         /* Tiled Background Styles */
+         .tiled-settings {
+             margin-top: 1rem;
+             padding-top: 1rem;
+             border-top: 1px solid #e5e7eb;
+         }
+
+         .dark-mode .tiled-settings {
+             border-top-color: var(--border-color);
+         }
+
+         .file-input-styled {
+             padding: 0.75rem;
+             border: 2px dashed #d1d5db;
+             border-radius: 8px;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             text-align: center;
+         }
+
+         .file-input-styled:hover {
+             border-color: #f472b6;
+             background: rgba(244, 114, 182, 0.05);
+         }
+
+         .dark-mode .file-input-styled {
+             border-color: var(--border-color);
+             background: var(--input-bg);
+             color: var(--text-primary);
+         }
+
+         .dark-mode .file-input-styled:hover {
+             border-color: #6366f1;
+             background: rgba(99, 102, 241, 0.1);
+         }
+
+         .tile-preview {
+             margin-top: 1rem;
+             display: flex;
+             align-items: center;
+             gap: 1rem;
+             padding: 1rem;
+             background: rgba(255, 255, 255, 0.05);
+             border-radius: 8px;
+         }
+
+         .tile-preview-img {
+             width: 60px;
+             height: 60px;
+             object-fit: cover;
+             border-radius: 8px;
+             border: 2px solid #e5e7eb;
+         }
+
+         .dark-mode .tile-preview-img {
+             border-color: var(--border-color);
+         }
+
+         .range-value {
+             text-align: center;
+             font-weight: 600;
+             margin-top: 0.5rem;
+             color: #6366f1;
+         }
+
+         .dark-mode .range-value {
+             color: #a5b4fc;
+         }
+
+         /* Range input styling */
+         input[type="range"] {
+             width: 100%;
+             height: 6px;
+             border-radius: 3px;
+             background: #e5e7eb;
+             outline: none;
+             -webkit-appearance: none;
+         }
+
+         input[type="range"]::-webkit-slider-thumb {
+             -webkit-appearance: none;
+             appearance: none;
+             width: 20px;
+             height: 20px;
+             border-radius: 50%;
+             background: linear-gradient(135deg, #f472b6, #db2777);
+             cursor: pointer;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+         }
+
+         input[type="range"]::-moz-range-thumb {
+             width: 20px;
+             height: 20px;
+             border-radius: 50%;
+             background: linear-gradient(135deg, #f472b6, #db2777);
+             cursor: pointer;
+             border: none;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+         }
+
+         .dark-mode input[type="range"] {
+             background: var(--border-color);
+         }
+
+         .dark-mode input[type="range"]::-webkit-slider-thumb {
+             background: linear-gradient(135deg, #6366f1, #4f46e5);
+         }
+
+         .dark-mode input[type="range"]::-moz-range-thumb {
+             background: linear-gradient(135deg, #6366f1, #4f46e5);
+         }
+
+         /* Tiled background overlay */
+         .tiled-background-overlay {
+             position: fixed;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             pointer-events: none;
+             z-index: -1;
+             background-repeat: repeat;
+             background-size: var(--tile-size, 100px);
+             opacity: var(--tile-opacity, 0.3);
+         }
+
+         /* Dynamic Color Scheme */
+         .dynamic-colors {
+             --dynamic-primary: var(--extracted-primary, #f472b6);
+             --dynamic-secondary: var(--extracted-secondary, #a78bfa);
+             --dynamic-accent: var(--extracted-accent, #34d399);
+             --dynamic-bg-light: var(--extracted-bg-light, rgba(255, 255, 255, 0.9));
+             --dynamic-bg-dark: var(--extracted-bg-dark, rgba(0, 0, 0, 0.1));
+             --dynamic-text-light: var(--extracted-text-light, #ffffff);
+             --dynamic-text-dark: var(--extracted-text-dark, #1f2937);
+         }
+
+         body.dynamic-colors {
+             background: linear-gradient(135deg, 
+                 color-mix(in srgb, var(--dynamic-primary), white 98%) 0%, 
+                 color-mix(in srgb, var(--dynamic-primary), white 96%) 30%, 
+                 color-mix(in srgb, var(--dynamic-secondary), white 97%) 70%,
+                 color-mix(in srgb, var(--dynamic-accent), white 98%) 100%);
+         }
+
+         .dynamic-colors .header {
+             background: linear-gradient(135deg, 
+                 color-mix(in srgb, var(--dynamic-primary), white 20%), 
+                 color-mix(in srgb, var(--dynamic-primary), var(--dynamic-secondary) 30%, white 15%), 
+                 color-mix(in srgb, var(--dynamic-secondary), white 25%));
+             box-shadow: 0 4px 20px color-mix(in srgb, var(--dynamic-primary), black 70%);
+         }
+
+         .dynamic-colors .card {
+             background: rgba(255, 255, 255, 0.98);
+             border: 1px solid color-mix(in srgb, var(--dynamic-primary), transparent 85%);
+             box-shadow: 0 8px 32px color-mix(in srgb, var(--dynamic-primary), transparent 92%);
+             backdrop-filter: blur(10px);
+         }
+
+         .dynamic-colors .tabs {
+             border-bottom: 2px solid color-mix(in srgb, var(--dynamic-primary), transparent 50%);
+         }
+
+         .dynamic-colors .tab.active {
+             color: var(--dynamic-primary);
+             border-bottom-color: var(--dynamic-primary);
+             background: color-mix(in srgb, var(--dynamic-primary), transparent 95%);
+         }
+
+         .dynamic-colors .btn-primary {
+             background: linear-gradient(135deg, 
+                 color-mix(in srgb, var(--dynamic-primary), white 10%), 
+                 color-mix(in srgb, var(--dynamic-secondary), white 15%));
+             border: none;
+         }
+
+         .dynamic-colors .btn-primary:hover {
+             background: linear-gradient(135deg, 
+                 color-mix(in srgb, var(--dynamic-primary), white 5%), 
+                 color-mix(in srgb, var(--dynamic-secondary), white 10%));
+         }
+
+         .dynamic-colors .btn-success {
+             background: linear-gradient(135deg, var(--dynamic-accent), color-mix(in srgb, var(--dynamic-accent), var(--dynamic-primary) 30%));
+         }
+
+         .dynamic-colors .status-purchased { 
+             background: color-mix(in srgb, var(--dynamic-primary), white 90%); 
+             color: color-mix(in srgb, var(--dynamic-primary), black 15%); 
+             border: 1px solid color-mix(in srgb, var(--dynamic-primary), white 80%);
+         }
+
+         .dynamic-colors .status-washed { 
+             background: color-mix(in srgb, var(--dynamic-secondary), white 90%); 
+             color: color-mix(in srgb, var(--dynamic-secondary), black 15%); 
+             border: 1px solid color-mix(in srgb, var(--dynamic-secondary), white 80%);
+         }
+
+         .dynamic-colors .status-ready-to-sell { 
+             background: color-mix(in srgb, var(--dynamic-accent), white 90%); 
+             color: color-mix(in srgb, var(--dynamic-accent), black 15%); 
+             border: 1px solid color-mix(in srgb, var(--dynamic-accent), white 80%);
+         }
+
+         .dynamic-colors .status-listed { 
+             background: color-mix(in srgb, var(--dynamic-primary), var(--dynamic-secondary) 50%, white 88%); 
+             color: color-mix(in srgb, var(--dynamic-primary), black 20%); 
+             border: 1px solid color-mix(in srgb, var(--dynamic-primary), white 75%);
+         }
+
+         .dynamic-colors .status-sold { 
+             background: color-mix(in srgb, var(--dynamic-primary), white 15%); 
+             color: white; 
+             border: 1px solid color-mix(in srgb, var(--dynamic-primary), white 10%);
+         }
+
+         .dynamic-colors .metric-icon {
+             background: color-mix(in srgb, var(--dynamic-primary), white 90%);
+             color: color-mix(in srgb, var(--dynamic-primary), black 10%);
+         }
+
+         .dynamic-colors .metric-icon.profit {
+             background: color-mix(in srgb, var(--dynamic-accent), white 90%);
+             color: color-mix(in srgb, var(--dynamic-accent), black 10%);
+         }
+
+         .dynamic-colors .metric-icon.success {
+             background: color-mix(in srgb, var(--dynamic-secondary), white 90%);
+             color: color-mix(in srgb, var(--dynamic-secondary), black 10%);
+         }
+
+         .dynamic-colors .metric-icon.info {
+             background: color-mix(in srgb, var(--dynamic-primary), var(--dynamic-accent) 30%, white 90%);
+             color: color-mix(in srgb, var(--dynamic-primary), black 10%);
+         }
+
+         .dynamic-colors input:focus, 
+         .dynamic-colors select:focus, 
+         .dynamic-colors textarea:focus {
+             border-color: var(--dynamic-primary);
+             box-shadow: 0 0 0 4px color-mix(in srgb, var(--dynamic-primary), transparent 85%);
+         }
+
+         .dynamic-colors .toggle-label input[type="checkbox"]:checked + .toggle-switch {
+             background: linear-gradient(135deg, var(--dynamic-primary), var(--dynamic-secondary));
+         }
+
+         .dynamic-colors .photo-upload:hover, 
+         .dynamic-colors .camera-option:hover {
+             border-color: var(--dynamic-primary);
+             background: color-mix(in srgb, var(--dynamic-primary), transparent 95%);
+         }
+
+         .dynamic-colors .bottom-tabs {
+             background: rgba(255, 255, 255, 0.98);
+             border-top-color: color-mix(in srgb, var(--dynamic-primary), white 50%);
+             box-shadow: 0 -8px 32px color-mix(in srgb, var(--dynamic-primary), transparent 90%);
+         }
+
+         .dynamic-colors .tab.active {
+             color: color-mix(in srgb, var(--dynamic-primary), black 10%);
+             background: color-mix(in srgb, var(--dynamic-primary), transparent 92%);
+             border-color: color-mix(in srgb, var(--dynamic-primary), white 30%);
+         }
+
+         .dynamic-colors .tab:hover:not(.active) {
+             color: color-mix(in srgb, var(--dynamic-primary), black 15%);
+             background: color-mix(in srgb, var(--dynamic-primary), transparent 96%);
+             border-color: color-mix(in srgb, var(--dynamic-primary), transparent 80%);
+         }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo {
+                gap: 0.75rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .racks-logo {
+                width: 30px;
+                height: 24px;
+            }
+
+            .brand-name {
+                font-size: 1.6rem;
+            }
+
+            .brand-tagline {
+                font-size: 0.7rem;
+            }
+
+            .stats {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .accessibility-toggle {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .accessibility-toggle span {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+                         .bottom-tabs {
+                 padding: 0.25rem;
+             }
+
+             .tab {
+                 min-width: 60px;
+                 max-width: 80px;
+                 padding: 0.5rem 0.25rem;
+             }
+
+             .tab span {
+                 font-size: 0.65rem;
+             }
+
+             .tab i {
+                 font-size: 1.1rem;
+             }
+
+            .photo-options {
+                grid-template-columns: 1fr;
+            }
+
+            .camera-preview {
+                height: 250px;
+            }
+
+            .camera-controls {
+                flex-direction: column;
+            }
+
+            .metrics-row {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-card {
+                padding: 1rem;
+            }
+
+            .activity-item {
+                gap: 0.75rem;
+            }
+
+            .activity-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            .dashboard-grid {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body x-data="resaleApp()">
+    <!-- Tiled Background Overlay -->
+    <div x-show="settings.tiledBackground && settings.tileImage" class="tiled-background-overlay" :style="getTiledBackgroundStyle()"></div>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="racks-logo">
+                        <div class="hanger-1"></div>
+                        <div class="hanger-2"></div>
+                        <div class="hanger-3"></div>
+                    </div>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name">Racks</div>
+                    <div class="brand-tagline">every piece in its place</div>
+                </div>
+            </div>
+                         <div class="stats">
+                 <div class="stat">
+                     <span class="stat-value" x-text="items.length">0</span>
+                     <span>Total Items</span>
+                 </div>
+                 <div class="stat">
+                     <span class="stat-value" x-text="soldItems.length">0</span>
+                     <span>Sold</span>
+                 </div>
+                 <div class="stat">
+                     <span class="stat-value" x-text="'$' + totalProfit.toFixed(2)">$0.00</span>
+                     <span>Total Profit</span>
+                 </div>
+             </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+         <!-- Settings Tab -->
+         <div class="tab-content" :class="{ active: activeTab === 'settings' }">
+             <div class="dashboard-grid">
+                 <!-- Pricing Settings -->
+                 <div class="card">
+                     <h3><i class="fas fa-tag"></i> Automatic Pricing</h3>
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.autoPricing" @change="saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Enable Automatic Listing Price
+                         </label>
+                         <p class="help-text">Automatically calculate listing price based on purchase price</p>
+                     </div>
+                     
+                     <div x-show="settings.autoPricing" class="pricing-settings">
+                         <div class="form-group">
+                             <label>Pricing Method</label>
+                             <div class="radio-group">
+                                 <label class="radio-label">
+                                     <input type="radio" x-model="settings.pricingMethod" value="percentage" @change="saveSettings()">
+                                     <span class="radio-custom"></span>
+                                     Percentage markup
+                                 </label>
+                                 <label class="radio-label">
+                                     <input type="radio" x-model="settings.pricingMethod" value="fixed" @change="saveSettings()">
+                                     <span class="radio-custom"></span>
+                                     Fixed amount markup
+                                 </label>
+                             </div>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label x-text="settings.pricingMethod === 'percentage' ? 'Markup Percentage (%)' : 'Markup Amount ($)'"></label>
+                             <input 
+                                 type="number" 
+                                 x-model="settings.markupValue" 
+                                 @change="saveSettings()"
+                                 :step="settings.pricingMethod === 'percentage' ? '1' : '0.01'" 
+                                 :min="0"
+                                 :placeholder="settings.pricingMethod === 'percentage' ? '200 (means 3x price)' : '5.00'"
+                             >
+                             <p class="help-text" x-show="settings.pricingMethod === 'percentage'">200% = 3x the purchase price (100% profit)</p>
+                             <p class="help-text" x-show="settings.pricingMethod === 'fixed'">Add this fixed amount to the purchase price</p>
+                         </div>
+                     </div>
+                 </div>
+
+                 <!-- Display Settings -->
+                 <div class="card">
+                     <h3><i class="fas fa-eye"></i> Display & Accessibility</h3>
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.darkMode" @change="applyDarkMode(); saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Dark Mode
+                         </label>
+                         <p class="help-text">Switch to a dark theme with reduced eye strain</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="accessibleMode" @change="applyAccessibleMode(); localStorage.setItem('accessibleMode', JSON.stringify(accessibleMode))">
+                             <span class="toggle-switch"></span>
+                             Colorblind Accessible Mode
+                         </label>
+                         <p class="help-text">High contrast colors and pattern indicators for colorblind users</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.tiledBackground" @change="applyTiledBackground(); saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Tiled Profile Background
+                         </label>
+                         <p class="help-text">Create a repeating pattern using your profile picture as background tiles</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.dynamicColors" @change="applyDynamicColors(); saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Dynamic Color Scheme
+                         </label>
+                         <p class="help-text">Automatically generate app colors that complement your background image</p>
+                     </div>
+                     
+                     <div x-show="settings.tiledBackground" class="tiled-settings">
+                         <div class="form-group">
+                             <label for="tileSize">Tile Size</label>
+                             <select id="tileSize" x-model="settings.tileSize" @change="applyTiledBackground(); saveSettings()">
+                                 <option value="tiny">Tiny (25px)</option>
+                                 <option value="small">Small (50px)</option>
+                                 <option value="medium">Medium (100px)</option>
+                                 <option value="large">Large (150px)</option>
+                                 <option value="xlarge">Extra Large (200px)</option>
+                                 <option value="jumbo">Jumbo (300px)</option>
+                                 <option value="massive">Massive (400px)</option>
+                             </select>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="tileOpacity">Background Opacity</label>
+                             <input type="range" id="tileOpacity" x-model="settings.tileOpacity" @change="applyTiledBackground(); saveSettings()" 
+                                    min="0.1" max="1" step="0.1">
+                             <div class="range-value" x-text="Math.round(settings.tileOpacity * 100) + '%'"></div>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label>Upload Profile Picture for Tiles</label>
+                             <input type="file" @change="handleTileImageUpload($event)" accept="image/*" class="file-input-styled">
+                             <div x-show="settings.tileImage" class="tile-preview">
+                                 <img :src="settings.tileImage" alt="Tile preview" class="tile-preview-img">
+                                 <button @click="removeTileImage()" class="btn btn-danger btn-small">Remove</button>
+                             </div>
+                         </div>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.showProfitOnCards" @change="saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Show Profit on Item Cards
+                         </label>
+                         <p class="help-text">Display calculated profit on inventory items</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.confirmDeletes" @change="saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Confirm Item Deletions
+                         </label>
+                         <p class="help-text">Show confirmation dialog before deleting items</p>
+                     </div>
+                 </div>
+
+                 <!-- Notification Settings -->
+                 <div class="card">
+                     <h3><i class="fas fa-bell"></i> Notifications & Reminders</h3>
+                     <div class="form-group">
+                         <label class="toggle-label">
+                             <input type="checkbox" x-model="settings.showSuccessMessages" @change="saveSettings()">
+                             <span class="toggle-switch"></span>
+                             Show Success Messages
+                         </label>
+                         <p class="help-text">Display confirmation when items are added, updated, or sold</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label for="defaultPlatform">Default Sales Platform</label>
+                         <select id="defaultPlatform" x-model="settings.defaultPlatform" @change="saveSettings()">
+                             <option value="">None</option>
+                             <option value="Facebook Marketplace">Facebook Marketplace</option>
+                             <option value="eBay">eBay</option>
+                             <option value="Mercari">Mercari</option>
+                             <option value="Poshmark">Poshmark</option>
+                             <option value="Depop">Depop</option>
+                             <option value="Vinted">Vinted</option>
+                             <option value="Other">Other</option>
+                         </select>
+                         <p class="help-text">Pre-select this platform when listing/selling items</p>
+                     </div>
+                 </div>
+
+                 <!-- Data Management -->
+                 <div class="card">
+                     <h3><i class="fas fa-database"></i> Data Management</h3>
+                     <div class="form-group">
+                         <button @click="exportData()" class="btn btn-secondary">
+                             <i class="fas fa-download"></i> Export Data
+                         </button>
+                         <p class="help-text">Download your data as a backup</p>
+                     </div>
+                     
+                     <div class="form-group">
+                         <button @click="clearAllData()" class="btn btn-danger">
+                             <i class="fas fa-trash"></i> Clear All Data
+                         </button>
+                         <p class="help-text">⚠️ This will permanently delete all your items and settings</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <!-- Dashboard Tab -->
+        <div class="tab-content" :class="{ active: activeTab === 'dashboard' }">
+            <div class="dashboard-grid">
+                <!-- Key Metrics Cards -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" x-text="items.length">0</div>
+                            <div class="metric-label">Total Items</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon profit">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" x-text="'$' + totalProfit.toFixed(2)">$0.00</div>
+                            <div class="metric-label">Total Profit</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon success">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" x-text="averageProfit ? '$' + averageProfit.toFixed(2) : '$0.00'">$0.00</div>
+                            <div class="metric-label">Avg Profit/Item</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon info">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" x-text="profitMargin ? profitMargin.toFixed(1) + '%' : '0%'">0%</div>
+                            <div class="metric-label">Profit Margin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Breakdown -->
+                <div class="card">
+                    <h3><i class="fas fa-clipboard-list"></i> Inventory Status</h3>
+                    <div class="status-breakdown">
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-label">
+                                    <span class="status-badge status-purchased">Purchased</span>
+                                    <span x-text="getItemsByStatus('Purchased').length">0</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" :style="'width: ' + (getItemsByStatus('Purchased').length / Math.max(inventoryItems.length, 1) * 100) + '%'" style="background: #f59e0b;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-label">
+                                    <span class="status-badge status-washed">Washed</span>
+                                    <span x-text="getItemsByStatus('Washed').length">0</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" :style="'width: ' + (getItemsByStatus('Washed').length / Math.max(inventoryItems.length, 1) * 100) + '%'" style="background: #3b82f6;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-label">
+                                    <span class="status-badge status-ready-to-sell">Ready to Sell</span>
+                                    <span x-text="getItemsByStatus('Ready-to-Sell').length">0</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" :style="'width: ' + (getItemsByStatus('Ready-to-Sell').length / Math.max(inventoryItems.length, 1) * 100) + '%'" style="background: #10b981;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-label">
+                                    <span class="status-badge status-listed">Listed</span>
+                                    <span x-text="getItemsByStatus('Listed').length">0</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" :style="'width: ' + (getItemsByStatus('Listed').length / Math.max(inventoryItems.length, 1) * 100) + '%'" style="background: #6366f1;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                    <div class="recent-activity">
+                        <template x-for="item in recentItems" :key="item.id">
+                            <div class="activity-item">
+                                <div class="activity-image">
+                                    <img x-show="item.photo" :src="item.photo" alt="Item">
+                                    <i x-show="!item.photo" class="fas fa-image"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-description">
+                                        <span x-show="item.description" x-text="item.description"></span>
+                                        <span x-show="!item.description" x-text="'Item from ' + formatSource(item.source)"></span>
+                                    </div>
+                                    <div class="activity-meta">
+                                        <span class="status-badge" :class="'status-' + item.status.replace(/\s+/g, '-').toLowerCase()" x-text="item.status"></span>
+                                        <span class="activity-date" x-text="formatDate(item.dateAdded)"></span>
+                                    </div>
+                                </div>
+                                <div class="activity-price">
+                                    <div x-show="item.status === 'Sold'" class="profit" x-text="'+$' + (item.salePrice - item.purchasePrice).toFixed(2)"></div>
+                                    <div x-show="item.status !== 'Sold'" x-text="'$' + item.purchasePrice.toFixed(2)"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <div x-show="recentItems.length === 0" class="empty-activity">
+                            <i class="fas fa-inbox"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                    <div class="quick-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">Items Added This Week:</span>
+                            <span class="stat-value" x-text="itemsThisWeek">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Items Sold This Week:</span>
+                            <span class="stat-value" x-text="soldThisWeek">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Best Profit Item:</span>
+                            <span class="stat-value" x-text="bestProfitItem ? '$' + (bestProfitItem.salePrice - bestProfitItem.purchasePrice).toFixed(2) : '$0.00'">$0.00</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Ready to List:</span>
+                            <span class="stat-value" x-text="getItemsByStatus('Ready-to-Sell').length">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Currently Listed:</span>
+                            <span class="stat-value" x-text="getItemsByStatus('Listed').length">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Item Tab -->
+        <div class="tab-content" :class="{ active: activeTab === 'add' }">
+            <div class="card">
+                <h2><i class="fas fa-camera"></i> Quick Item Log</h2>
+                <form @submit.prevent="addItem()">
+                    <div class="form-group">
+                        <label>Item Photos (up to 5)</label>
+                        <div class="photo-options" x-show="newItem.photos.length < 5">
+                            <div class="photo-upload" @click="$refs.photoInput.click()">
+                                <input type="file" x-ref="photoInput" accept="image/*" @change="handlePhotoUpload($event)" style="display: none;">
+                                <div x-show="!showCamera">
+                                    <i class="fas fa-upload" style="font-size: 1.5rem; color: #9ca3af; margin-bottom: 0.5rem;"></i>
+                                    <p>Upload from device</p>
+                                </div>
+                            </div>
+                            <div class="camera-option" @click="toggleCamera()">
+                                <i class="fas fa-camera" style="font-size: 1.5rem; color: #9ca3af; margin-bottom: 0.5rem;"></i>
+                                <p x-text="showCamera ? 'Close Camera' : 'Take Photo'"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Camera Interface -->
+                        <div x-show="showCamera" class="camera-interface">
+                            <video x-ref="video" autoplay playsinline class="camera-preview"></video>
+                            <canvas x-ref="canvas" style="display: none;"></canvas>
+                            <div class="camera-controls">
+                                <button type="button" @click="capturePhoto()" class="btn btn-success">
+                                    <i class="fas fa-camera"></i> Capture
+                                </button>
+                                <button type="button" @click="toggleCamera()" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Photos Gallery -->
+                        <div x-show="newItem.photos.length > 0" class="photos-gallery">
+                            <template x-for="(photo, index) in newItem.photos" :key="index">
+                                <div class="photo-item">
+                                    <img :src="photo" class="photo-thumbnail" alt="Item photo">
+                                    <button type="button" @click="removePhoto(index)" class="remove-photo-btn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <div x-show="index === 0" class="primary-photo-badge">Primary</div>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div x-show="newItem.photos.length >= 5" class="photo-limit-message">
+                            <i class="fas fa-info-circle"></i> Maximum of 5 photos reached
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchasePrice">Purchase Price ($)</label>
+                            <input type="number" id="purchasePrice" x-model="newItem.purchasePrice" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="listingPrice">Listing Price ($)</label>
+                            <input type="number" 
+                                   id="listingPrice" 
+                                   x-model="newItem.listingPrice" 
+                                   step="0.01" 
+                                   min="0" 
+                                   required
+                                   :disabled="newItem.useAutoPricing"
+                                   :style="newItem.useAutoPricing ? 'background-color: #f3f4f6; cursor: not-allowed;' : ''"
+                                   :placeholder="newItem.useAutoPricing ? 'Auto-calculated' : 'Required'">
+                            <div class="pricing-option">
+                                <label class="toggle-label">
+                                    <input type="checkbox" x-model="newItem.useAutoPricing" @change="updateNewItemListingPrice()">
+                                    <span class="toggle-switch"></span>
+                                    Use automatic pricing
+                                </label>
+                            </div>
+                            <div x-show="newItem.useAutoPricing" class="auto-price-info">
+                                <small class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    Automatically calculated based on your settings
+                                    <span x-text="settings.pricingMethod === 'percentage' ? 
+                                        '(' + settings.markupValue + '% markup)' : 
+                                        '($' + settings.markupValue + ' markup)'"></span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="source">Source</label>
+                        <input type="text" id="source" x-model="newItem.source" placeholder="e.g., Thrift Store, Estate Sale, Garage Sale, Facebook Marketplace" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description (optional)</label>
+                        <input type="text" id="description" x-model="newItem.description" placeholder="Brief description of the item">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Item
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Inventory Tab -->
+        <div class="tab-content" :class="{ active: activeTab === 'inventory' }">
+            <div x-show="inventoryItems.length === 0" class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3>No items in inventory</h3>
+                <p>Add your first item using the "Add Item" tab</p>
+            </div>
+
+            <div x-show="inventoryItems.length > 0" class="items-grid">
+                <template x-for="item in inventoryItems" :key="item.id">
+                    <div class="item-card">
+                        <div class="item-image" x-data="{ currentPhoto: 0 }">
+                            <div x-show="item.photos && item.photos.length > 0" class="photo-carousel">
+                                <img :src="item.photos[currentPhoto]" style="width: 100%; height: 100%; object-fit: cover;" alt="Item">
+                                <div x-show="item.photos.length > 1" class="photo-nav">
+                                    <button @click="currentPhoto = currentPhoto > 0 ? currentPhoto - 1 : item.photos.length - 1" class="photo-nav-btn prev">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <div class="photo-dots">
+                                        <template x-for="(photo, index) in item.photos" :key="index">
+                                            <button @click="currentPhoto = index" class="photo-dot" :class="{ active: currentPhoto === index }"></button>
+                                        </template>
+                                    </div>
+                                    <button @click="currentPhoto = currentPhoto < item.photos.length - 1 ? currentPhoto + 1 : 0" class="photo-nav-btn next">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div x-show="(!item.photos || item.photos.length === 0) && item.photo" class="single-photo">
+                                <img :src="item.photo" style="width: 100%; height: 100%; object-fit: cover;" alt="Item">
+                            </div>
+                            <div x-show="(!item.photos || item.photos.length === 0) && !item.photo" class="no-photo">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-header">
+                                <div>
+                                    <div class="item-source" x-text="formatSource(item.source)"></div>
+                                    <div x-show="item.description" x-text="item.description" style="margin-top: 0.5rem; font-weight: 500;"></div>
+                                </div>
+                                <div class="status-badge" :class="'status-' + item.status.replace(/\s+/g, '-').toLowerCase()" x-text="item.status"></div>
+                            </div>
+
+                            <div class="item-prices">
+                                <div>
+                                    <span>Paid: </span>
+                                    <span class="price" x-text="'$' + item.purchasePrice.toFixed(2)"></span>
+                                </div>
+                                <div x-show="item.status === 'Ready-to-Sell' || item.status === 'Listed'">
+                                    <span>Suggested: </span>
+                                    <span class="price" x-text="'$' + (item.purchasePrice * 3).toFixed(2)"></span>
+                                </div>
+                            </div>
+
+                                                         <div class="status-actions">
+                                 <button x-show="item.status === 'Purchased'" @click="updateItemStatus(item.id, 'Washed')" class="btn btn-primary btn-small">
+                                     Mark Washed
+                                 </button>
+                                 <button x-show="item.status === 'Washed'" @click="updateItemStatus(item.id, 'Ready-to-Sell')" class="btn btn-primary btn-small">
+                                     Ready to Sell
+                                 </button>
+                                 <button x-show="item.status === 'Ready-to-Sell'" @click="openListingModal(item)" class="btn btn-success btn-small">
+                                     Mark Listed
+                                 </button>
+                                 <button x-show="item.status === 'Listed'" @click="openSaleModal(item)" class="btn btn-success btn-small">
+                                     Mark Sold
+                                 </button>
+                                 <button @click="openEditModal(item)" class="btn btn-secondary btn-small">
+                                     <i class="fas fa-edit"></i>
+                                 </button>
+                                 <button @click="deleteItem(item.id)" class="btn btn-danger btn-small">
+                                     <i class="fas fa-trash"></i>
+                                 </button>
+                             </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Sold Items Tab -->
+        <div class="tab-content" :class="{ active: activeTab === 'sold' }">
+            <div x-show="soldItems.length === 0" class="empty-state">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>No sold items yet</h3>
+                <p>Items marked as sold will appear here</p>
+            </div>
+
+            <div x-show="soldItems.length > 0" class="items-grid">
+                <template x-for="item in soldItems" :key="item.id">
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img x-show="item.photo" :src="item.photo" style="width: 100%; height: 100%; object-fit: cover;" alt="Item">
+                            <i x-show="!item.photo" class="fas fa-image"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-header">
+                                <div>
+                                    <div class="item-source" x-text="formatSource(item.source)"></div>
+                                    <div x-show="item.description" x-text="item.description" style="margin-top: 0.5rem; font-weight: 500;"></div>
+                                </div>
+                                <div class="status-badge status-sold">Sold</div>
+                            </div>
+
+                            <div class="item-prices">
+                                <div>
+                                    <span>Paid: </span>
+                                    <span class="price" x-text="'$' + item.purchasePrice.toFixed(2)"></span>
+                                </div>
+                                <div>
+                                    <span>Sold: </span>
+                                    <span class="price" x-text="'$' + item.salePrice.toFixed(2)"></span>
+                                </div>
+                                <div>
+                                    <span>Profit: </span>
+                                    <span class="profit" x-text="'$' + (item.salePrice - item.purchasePrice).toFixed(2)"></span>
+                                </div>
+                            </div>
+
+                            <div x-show="item.platform" style="margin-top: 0.5rem;">
+                                <small>Sold on: <strong x-text="item.platform"></strong></small>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+         </div>
+
+     <!-- Fixed Bottom Tabs -->
+     <div class="bottom-tabs">
+         <div class="tabs-container">
+             <button class="tab" :class="{ active: activeTab === 'add' }" @click="activeTab = 'add'">
+                 <i class="fas fa-plus"></i>
+                 <span>Add Item</span>
+             </button>
+             <button class="tab" :class="{ active: activeTab === 'inventory' }" @click="activeTab = 'inventory'">
+                 <i class="fas fa-boxes"></i>
+                 <span>Inventory</span>
+             </button>
+             <button class="tab" :class="{ active: activeTab === 'sold' }" @click="activeTab = 'sold'">
+                 <i class="fas fa-dollar-sign"></i>
+                 <span>Sold Items</span>
+             </button>
+             <button class="tab" :class="{ active: activeTab === 'dashboard' }" @click="activeTab = 'dashboard'">
+                 <i class="fas fa-chart-line"></i>
+                 <span>Dashboard</span>
+             </button>
+             <button class="tab" :class="{ active: activeTab === 'settings' }" @click="activeTab = 'settings'">
+                 <i class="fas fa-cog"></i>
+                 <span>Settings</span>
+             </button>
+         </div>
+     </div>
+
+     <!-- Listing Modal -->
+    <div x-show="showListingModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;" @click.self="showListingModal = false">
+        <div class="card" style="width: 90%; max-width: 500px; margin: 0;">
+            <h3>Mark as Listed</h3>
+            <div class="form-group">
+                <label>Listing Price ($)</label>
+                <input type="number" x-model="listingPrice" step="0.01" min="0" :placeholder="selectedItem ? (selectedItem.purchasePrice * 3).toFixed(2) + ' (suggested)' : ''">
+            </div>
+            <div class="form-group">
+                <label>Platform</label>
+                <select x-model="listingPlatform">
+                    <option value="">Select platform</option>
+                    <option value="Facebook Marketplace">Facebook Marketplace</option>
+                    <option value="eBay">eBay</option>
+                    <option value="Mercari">Mercari</option>
+                    <option value="Poshmark">Poshmark</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button @click="confirmListing()" class="btn btn-success">Mark Listed</button>
+                <button @click="showListingModal = false" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sale Modal -->
+    <div x-show="showSaleModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;" @click.self="showSaleModal = false">
+        <div class="card" style="width: 90%; max-width: 500px; margin: 0;">
+            <h3>Mark as Sold</h3>
+            <div class="form-group">
+                <label>Sale Price ($)</label>
+                <input type="number" x-model="salePrice" step="0.01" min="0" :placeholder="selectedItem && selectedItem.listingPrice ? selectedItem.listingPrice.toFixed(2) + ' (listed price)' : ''">
+            </div>
+            <div class="form-group">
+                <label>Platform</label>
+                <select x-model="salePlatform">
+                    <option value="">Select platform</option>
+                    <option value="Facebook Marketplace">Facebook Marketplace</option>
+                    <option value="eBay">eBay</option>
+                    <option value="Mercari">Mercari</option>
+                    <option value="Poshmark">Poshmark</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button @click="confirmSale()" class="btn btn-success">Mark Sold</button>
+                <button @click="showSaleModal = false" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+         </div>
+
+     <!-- Edit Item Modal -->
+     <div x-show="showEditModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;" @click.self="showEditModal = false">
+         <div class="card" style="width: 95%; max-width: 600px; margin: 0; max-height: 90vh; overflow-y: auto;">
+             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                 <h3><i class="fas fa-edit"></i> Edit Item</h3>
+                 <button @click="showEditModal = false" class="btn btn-secondary btn-small">
+                     <i class="fas fa-times"></i>
+                 </button>
+             </div>
+
+             <form @submit.prevent="saveItemEdits()">
+                 <!-- Photos Section -->
+                 <div class="form-group">
+                     <label>Item Photos (up to 5)</label>
+                     <div class="photo-options" x-show="editItem.photos.length < 5">
+                         <div class="photo-upload" @click="$refs.editPhotoInput.click()">
+                             <input type="file" x-ref="editPhotoInput" accept="image/*" @change="handleEditPhotoUpload($event)" style="display: none;">
+                             <div x-show="!showEditCamera">
+                                 <i class="fas fa-upload" style="font-size: 1.5rem; color: #9ca3af; margin-bottom: 0.5rem;"></i>
+                                 <p>Upload from device</p>
+                             </div>
+                         </div>
+                         <div class="camera-option" @click="toggleEditCamera()">
+                             <i class="fas fa-camera" style="font-size: 1.5rem; color: #9ca3af; margin-bottom: 0.5rem;"></i>
+                             <p x-text="showEditCamera ? 'Close Camera' : 'Take Photo'"></p>
+                         </div>
+                     </div>
+                     
+                     <!-- Camera Interface for Edit -->
+                     <div x-show="showEditCamera" class="camera-interface">
+                         <video x-ref="editVideo" autoplay playsinline class="camera-preview"></video>
+                         <canvas x-ref="editCanvas" style="display: none;"></canvas>
+                         <div class="camera-controls">
+                             <button type="button" @click="captureEditPhoto()" class="btn btn-success">
+                                 <i class="fas fa-camera"></i> Capture
+                             </button>
+                             <button type="button" @click="toggleEditCamera()" class="btn btn-secondary">
+                                 <i class="fas fa-times"></i> Cancel
+                             </button>
+                         </div>
+                     </div>
+
+                     <!-- Photos Gallery for Edit -->
+                     <div x-show="editItem.photos && editItem.photos.length > 0" class="photos-gallery">
+                         <template x-for="(photo, index) in editItem.photos" :key="index">
+                             <div class="photo-item">
+                                 <img :src="photo" class="photo-thumbnail" alt="Item photo">
+                                 <button type="button" @click="removeEditPhoto(index)" class="remove-photo-btn">
+                                     <i class="fas fa-times"></i>
+                                 </button>
+                                 <div x-show="index === 0" class="primary-photo-badge">Primary</div>
+                             </div>
+                         </template>
+                     </div>
+                     
+                     <div x-show="editItem.photos && editItem.photos.length >= 5" class="photo-limit-message">
+                         <i class="fas fa-info-circle"></i> Maximum of 5 photos reached
+                     </div>
+                 </div>
+
+                 <!-- Price and Details -->
+                 <div class="form-row">
+                     <div class="form-group">
+                         <label for="editPurchasePrice">Purchase Price ($)</label>
+                         <input type="number" id="editPurchasePrice" x-model="editItem.purchasePrice" step="0.01" min="0" required>
+                     </div>
+                     <div class="form-group">
+                         <label for="editListingPrice">Listing Price ($)</label>
+                         <input type="number" 
+                                id="editListingPrice" 
+                                x-model="editItem.listingPrice" 
+                                step="0.01" 
+                                min="0" 
+                                required
+                                :disabled="editItem.useAutoPricing"
+                                :style="editItem.useAutoPricing ? 'background-color: #f3f4f6; cursor: not-allowed;' : ''">
+                         <div class="pricing-option">
+                             <label class="toggle-label">
+                                 <input type="checkbox" x-model="editItem.useAutoPricing" @change="updateEditListingPrice()">
+                                 <span class="toggle-switch"></span>
+                                 Use automatic pricing
+                             </label>
+                         </div>
+                         <div x-show="editItem.useAutoPricing" class="auto-price-info">
+                             <small class="help-text">
+                                 <i class="fas fa-info-circle"></i>
+                                 Automatically calculated based on your settings
+                                 <span x-text="settings.pricingMethod === 'percentage' ? 
+                                     '(' + settings.markupValue + '% markup)' : 
+                                     '($' + settings.markupValue + ' markup)'"></span>
+                             </small>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                     <label for="editSource">Source</label>
+                     <input type="text" id="editSource" x-model="editItem.source" placeholder="e.g., Thrift Store, Estate Sale, Garage Sale" required>
+                 </div>
+
+                 <div class="form-group">
+                     <label for="editDescription">Description (optional)</label>
+                     <input type="text" id="editDescription" x-model="editItem.description" placeholder="Brief description of the item">
+                 </div>
+
+                 <div class="form-group">
+                     <label for="editStatus">Status</label>
+                     <select id="editStatus" x-model="editItem.status">
+                         <option value="Purchased">Purchased</option>
+                         <option value="Washed">Washed</option>
+                         <option value="Ready-to-Sell">Ready-to-Sell</option>
+                         <option value="Listed">Listed</option>
+                         <option value="Sold">Sold</option>
+                     </select>
+                 </div>
+
+                 <!-- Sale Information (if sold) -->
+                 <div x-show="editItem.status === 'Sold'" class="form-row">
+                     <div class="form-group">
+                         <label for="editSalePrice">Sale Price ($)</label>
+                         <input type="number" id="editSalePrice" x-model="editItem.salePrice" step="0.01" min="0">
+                     </div>
+                     <div class="form-group">
+                         <label for="editPlatform">Platform</label>
+                         <select id="editPlatform" x-model="editItem.platform">
+                             <option value="">Select platform</option>
+                             <option value="Facebook Marketplace">Facebook Marketplace</option>
+                             <option value="eBay">eBay</option>
+                             <option value="Mercari">Mercari</option>
+                             <option value="Poshmark">Poshmark</option>
+                             <option value="Depop">Depop</option>
+                             <option value="Vinted">Vinted</option>
+                             <option value="Other">Other</option>
+                         </select>
+                     </div>
+                 </div>
+
+                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                     <button type="submit" class="btn btn-primary">
+                         <i class="fas fa-save"></i> Save Changes
+                     </button>
+                     <button type="button" @click="showEditModal = false" class="btn btn-secondary">Cancel</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+
+     <script>
+        function resaleApp() {
+            return {
+                activeTab: 'add',
+                items: JSON.parse(localStorage.getItem('resaleItems') || '[]'),
+                newItem: {
+                    photos: [],
+                    purchasePrice: '',
+                    listingPrice: '',
+                    source: '',
+                    description: '',
+                    useAutoPricing: true // Default to auto-pricing for new items
+                },
+                showListingModal: false,
+                showSaleModal: false,
+                selectedItem: null,
+                listingPrice: '',
+                listingPlatform: '',
+                salePrice: '',
+                salePlatform: '',
+                                 showCamera: false,
+                 cameraStream: null,
+                 showEditModal: false,
+                 showEditCamera: false,
+                 editCameraStream: null,
+                 editItem: {},
+                 accessibleMode: JSON.parse(localStorage.getItem('accessibleMode') || 'false'),
+                 settings: JSON.parse(localStorage.getItem('racksSettings') || JSON.stringify({
+                     autoPricing: true,
+                     pricingMethod: 'percentage',
+                     markupValue: 200,
+                     showProfitOnCards: true,
+                     confirmDeletes: true,
+                     showSuccessMessages: true,
+                     defaultPlatform: '',
+                     darkMode: false,
+                     tiledBackground: false,
+                     tileSize: 'medium',
+                     tileOpacity: 0.3,
+                     tileImage: null,
+                     dynamicColors: false,
+                     extractedColors: null
+                 })),
+
+                get inventoryItems() {
+                    return this.items.filter(item => item.status !== 'Sold');
+                },
+
+                get soldItems() {
+                    return this.items.filter(item => item.status === 'Sold');
+                },
+
+                get totalProfit() {
+                    return this.soldItems.reduce((total, item) => {
+                        return total + (item.salePrice - item.purchasePrice);
+                    }, 0);
+                },
+
+                get averageProfit() {
+                    if (this.soldItems.length === 0) return 0;
+                    return this.totalProfit / this.soldItems.length;
+                },
+
+                get profitMargin() {
+                    if (this.soldItems.length === 0) return 0;
+                    const totalInvestment = this.soldItems.reduce((total, item) => total + item.purchasePrice, 0);
+                    const totalRevenue = this.soldItems.reduce((total, item) => total + item.salePrice, 0);
+                    return totalInvestment > 0 ? ((totalRevenue - totalInvestment) / totalRevenue) * 100 : 0;
+                },
+
+                get recentItems() {
+                    return [...this.items]
+                        .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
+                        .slice(0, 5);
+                },
+
+                get itemsThisWeek() {
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return this.items.filter(item => new Date(item.dateAdded) >= weekAgo).length;
+                },
+
+                get soldThisWeek() {
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return this.soldItems.filter(item => 
+                        item.dateSold && new Date(item.dateSold) >= weekAgo
+                    ).length;
+                },
+
+                get bestProfitItem() {
+                    if (this.soldItems.length === 0) return null;
+                    return this.soldItems.reduce((best, item) => {
+                        const profit = item.salePrice - item.purchasePrice;
+                        const bestProfit = best ? best.salePrice - best.purchasePrice : 0;
+                        return profit > bestProfit ? item : best;
+                    }, null);
+                },
+
+                                 calculateListingPrice(purchasePrice) {
+                     if (!this.settings.autoPricing || !purchasePrice) return '';
+                     
+                     const price = parseFloat(purchasePrice);
+                     if (isNaN(price)) return '';
+                     
+                     if (this.settings.pricingMethod === 'percentage') {
+                         const markup = parseFloat(this.settings.markupValue) || 200;
+                         return (price * (1 + markup / 100)).toFixed(2);
+                     } else {
+                         const markup = parseFloat(this.settings.markupValue) || 0;
+                         return (price + markup).toFixed(2);
+                     }
+                 },
+
+                 handlePhotoUpload(event) {
+                     const file = event.target.files[0];
+                     if (file && this.newItem.photos.length < 5) {
+                         const reader = new FileReader();
+                         reader.onload = (e) => {
+                             this.newItem.photos.push(e.target.result);
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                     // Reset file input
+                     event.target.value = '';
+                 },
+
+                async toggleCamera() {
+                    if (this.showCamera) {
+                        // Close camera
+                        this.stopCamera();
+                        this.showCamera = false;
+                    } else {
+                        // Open camera
+                        try {
+                            const stream = await navigator.mediaDevices.getUserMedia({ 
+                                video: { 
+                                    width: { ideal: 1280 },
+                                    height: { ideal: 720 },
+                                    facingMode: 'environment' // Use back camera on mobile if available
+                                } 
+                            });
+                            this.cameraStream = stream;
+                            this.showCamera = true;
+                            
+                            // Wait for Alpine to render the video element
+                            this.$nextTick(() => {
+                                if (this.$refs.video) {
+                                    this.$refs.video.srcObject = stream;
+                                }
+                            });
+                        } catch (error) {
+                            console.error('Error accessing camera:', error);
+                            alert('Unable to access camera. Please check your camera permissions and try again.');
+                        }
+                    }
+                },
+
+                stopCamera() {
+                    if (this.cameraStream) {
+                        this.cameraStream.getTracks().forEach(track => track.stop());
+                        this.cameraStream = null;
+                    }
+                },
+
+                capturePhoto() {
+                    const video = this.$refs.video;
+                    const canvas = this.$refs.canvas;
+                    
+                    if (video && canvas && this.newItem.photos.length < 5) {
+                        // Set canvas dimensions to match video
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        
+                        // Draw video frame to canvas
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(video, 0, 0);
+                        
+                        // Convert canvas to data URL and add to photos array
+                        this.newItem.photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                        
+                        // Close camera after capture
+                        this.stopCamera();
+                        this.showCamera = false;
+                    }
+                },
+
+                removePhoto(index) {
+                    this.newItem.photos.splice(index, 1);
+                },
+
+                addItem() {
+                    const item = {
+                        id: Date.now(),
+                        photos: [...this.newItem.photos],
+                        photo: this.newItem.photos[0] || null, // Keep for backward compatibility
+                        purchasePrice: parseFloat(this.newItem.purchasePrice),
+                        listingPrice: this.newItem.listingPrice ? parseFloat(this.newItem.listingPrice) : null,
+                        source: this.newItem.source,
+                        description: this.newItem.description,
+                        status: 'Purchased',
+                        dateAdded: new Date().toISOString()
+                    };
+
+                    this.items.push(item);
+                    this.saveItems();
+                    this.resetForm();
+                    this.activeTab = 'inventory';
+                },
+
+                                 resetForm() {
+                     this.newItem = {
+                         photos: [],
+                         purchasePrice: '',
+                         listingPrice: '',
+                         source: '',
+                         description: '',
+                         useAutoPricing: true // Default to auto-pricing for new items
+                     };
+                     // Close camera if it's open
+                     if (this.showCamera) {
+                         this.stopCamera();
+                         this.showCamera = false;
+                     }
+                     // Reset file input
+                     if (this.$refs.photoInput) {
+                         this.$refs.photoInput.value = '';
+                     }
+                 },
+
+                updateItemStatus(itemId, newStatus) {
+                    const item = this.items.find(i => i.id === itemId);
+                    if (item) {
+                        item.status = newStatus;
+                        this.saveItems();
+                    }
+                },
+
+                                 openListingModal(item) {
+                     this.selectedItem = item;
+                     this.listingPrice = item.listingPrice || (item.purchasePrice * 3).toFixed(2);
+                     this.listingPlatform = this.settings.defaultPlatform || '';
+                     this.showListingModal = true;
+                 },
+
+                confirmListing() {
+                    if (this.selectedItem && this.listingPrice) {
+                        this.selectedItem.status = 'Listed';
+                        this.selectedItem.listingPrice = parseFloat(this.listingPrice);
+                        this.selectedItem.platform = this.listingPlatform;
+                        this.saveItems();
+                        this.showListingModal = false;
+                    }
+                },
+
+                                 openSaleModal(item) {
+                     this.selectedItem = item;
+                     this.salePrice = item.listingPrice ? item.listingPrice.toFixed(2) : '';
+                     this.salePlatform = item.platform || this.settings.defaultPlatform || '';
+                     this.showSaleModal = true;
+                 },
+
+                confirmSale() {
+                    if (this.selectedItem && this.salePrice) {
+                        this.selectedItem.status = 'Sold';
+                        this.selectedItem.salePrice = parseFloat(this.salePrice);
+                        this.selectedItem.platform = this.salePlatform;
+                        this.selectedItem.dateSold = new Date().toISOString();
+                        this.saveItems();
+                        this.showSaleModal = false;
+                    }
+                },
+
+                                 deleteItem(itemId) {
+                     const shouldConfirm = this.settings.confirmDeletes;
+                     if (!shouldConfirm || confirm('Are you sure you want to delete this item?')) {
+                         this.items = this.items.filter(item => item.id !== itemId);
+                         this.saveItems();
+                         if (this.settings.showSuccessMessages) {
+                             this.showMessage('Item deleted successfully');
+                         }
+                     }
+                 },
+
+                 openEditModal(item) {
+                     // Create a deep copy of the item for editing
+                     this.editItem = {
+                         ...item,
+                         photos: [...(item.photos || [])],
+                         purchasePrice: item.purchasePrice,
+                         listingPrice: item.listingPrice || '',
+                         source: item.source,
+                         description: item.description || '',
+                         status: item.status,
+                         salePrice: item.salePrice || '',
+                         platform: item.platform || '',
+                         useAutoPricing: false // Default to manual pricing for existing items
+                     };
+                     this.showEditModal = true;
+                 },
+
+                 handleEditPhotoUpload(event) {
+                     const file = event.target.files[0];
+                     if (file && this.editItem.photos.length < 5) {
+                         const reader = new FileReader();
+                         reader.onload = (e) => {
+                             this.editItem.photos.push(e.target.result);
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                     // Reset file input
+                     event.target.value = '';
+                 },
+
+                 async toggleEditCamera() {
+                     if (this.showEditCamera) {
+                         // Close camera
+                         this.stopEditCamera();
+                         this.showEditCamera = false;
+                     } else {
+                         // Open camera
+                         try {
+                             const stream = await navigator.mediaDevices.getUserMedia({ 
+                                 video: { 
+                                     width: { ideal: 1280 },
+                                     height: { ideal: 720 },
+                                     facingMode: 'environment'
+                                 } 
+                             });
+                             this.editCameraStream = stream;
+                             this.showEditCamera = true;
+                             
+                             this.$nextTick(() => {
+                                 if (this.$refs.editVideo) {
+                                     this.$refs.editVideo.srcObject = stream;
+                                 }
+                             });
+                         } catch (error) {
+                             console.error('Error accessing camera:', error);
+                             alert('Unable to access camera. Please check your camera permissions and try again.');
+                         }
+                     }
+                 },
+
+                 stopEditCamera() {
+                     if (this.editCameraStream) {
+                         this.editCameraStream.getTracks().forEach(track => track.stop());
+                         this.editCameraStream = null;
+                     }
+                 },
+
+                 captureEditPhoto() {
+                     const video = this.$refs.editVideo;
+                     const canvas = this.$refs.editCanvas;
+                     
+                     if (video && canvas && this.editItem.photos.length < 5) {
+                         canvas.width = video.videoWidth;
+                         canvas.height = video.videoHeight;
+                         
+                         const ctx = canvas.getContext('2d');
+                         ctx.drawImage(video, 0, 0);
+                         
+                         this.editItem.photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                         
+                         this.stopEditCamera();
+                         this.showEditCamera = false;
+                     }
+                 },
+
+                 removeEditPhoto(index) {
+                     this.editItem.photos.splice(index, 1);
+                 },
+
+                 updateEditListingPrice() {
+                     if (this.editItem.useAutoPricing && this.editItem.purchasePrice) {
+                         this.editItem.listingPrice = this.calculateListingPrice(this.editItem.purchasePrice);
+                     }
+                 },
+
+                 updateNewItemListingPrice() {
+                     if (this.newItem.useAutoPricing && this.newItem.purchasePrice) {
+                         this.newItem.listingPrice = this.calculateListingPrice(this.newItem.purchasePrice);
+                     }
+                 },
+
+                 saveItemEdits() {
+                     // Find the item in the array and update it
+                     const itemIndex = this.items.findIndex(item => item.id === this.editItem.id);
+                     if (itemIndex !== -1) {
+                         // Update the item with edited data
+                         this.items[itemIndex] = {
+                             ...this.editItem,
+                             purchasePrice: parseFloat(this.editItem.purchasePrice),
+                             listingPrice: this.editItem.listingPrice ? parseFloat(this.editItem.listingPrice) : null,
+                             salePrice: this.editItem.salePrice ? parseFloat(this.editItem.salePrice) : null,
+                             photo: this.editItem.photos[0] || null, // Keep backward compatibility
+                             dateModified: new Date().toISOString()
+                         };
+                         
+                         // If status changed to sold, add dateSold
+                         if (this.editItem.status === 'Sold' && !this.items[itemIndex].dateSold) {
+                             this.items[itemIndex].dateSold = new Date().toISOString();
+                         }
+                         
+                         this.saveItems();
+                         this.showEditModal = false;
+                         
+                         // Close camera if open
+                         if (this.showEditCamera) {
+                             this.stopEditCamera();
+                             this.showEditCamera = false;
+                         }
+                         
+                         if (this.settings.showSuccessMessages) {
+                             this.showMessage('Item updated successfully');
+                         }
+                     }
+                 },
+
+                getItemsByStatus(status) {
+                    return this.items.filter(item => item.status === status);
+                },
+
+                formatDate(dateString) {
+                    const date = new Date(dateString);
+                    const now = new Date();
+                    const diffTime = Math.abs(now - date);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 1) return 'Today';
+                    if (diffDays === 2) return 'Yesterday';
+                    if (diffDays <= 7) return `${diffDays - 1} days ago`;
+                    return date.toLocaleDateString();
+                },
+
+                formatSource(source) {
+                    const sources = {
+                        'thrift': 'Thrift Store',
+                        'estate': 'Estate Sale',
+                        'garage': 'Garage Sale',
+                        'facebook': 'Facebook Marketplace',
+                        'other': 'Other'
+                    };
+                    return sources[source] || source;
+                },
+
+                toggleAccessibleMode() {
+                    this.accessibleMode = !this.accessibleMode;
+                    localStorage.setItem('accessibleMode', JSON.stringify(this.accessibleMode));
+                    this.applyAccessibleMode();
+                },
+
+                                 applyAccessibleMode() {
+                     if (this.accessibleMode) {
+                         document.body.classList.add('accessible-mode');
+                         console.log('Accessible mode enabled');
+                     } else {
+                         document.body.classList.remove('accessible-mode');
+                         console.log('Accessible mode disabled');
+                     }
+                 },
+
+                                 saveItems() {
+                     localStorage.setItem('resaleItems', JSON.stringify(this.items));
+                 },
+
+                 saveSettings() {
+                     localStorage.setItem('racksSettings', JSON.stringify(this.settings));
+                     if (this.settings.showSuccessMessages) {
+                         this.showMessage('Settings saved successfully');
+                     }
+                 },
+
+                 showMessage(message) {
+                     alert(message); // Simple implementation - could be enhanced with a toast system
+                 },
+
+                 exportData() {
+                     const data = {
+                         items: this.items,
+                         settings: this.settings,
+                         exportDate: new Date().toISOString(),
+                         version: '1.0'
+                     };
+                     
+                     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                     const url = URL.createObjectURL(blob);
+                     const a = document.createElement('a');
+                     a.href = url;
+                     a.download = `racks-backup-${new Date().toISOString().split('T')[0]}.json`;
+                     document.body.appendChild(a);
+                     a.click();
+                     document.body.removeChild(a);
+                     URL.revokeObjectURL(url);
+                 },
+
+                 clearAllData() {
+                     if (confirm('⚠️ This will permanently delete ALL your data including items, settings, and photos. This cannot be undone.\n\nAre you absolutely sure?')) {
+                         if (confirm('Last chance! This will delete everything. Continue?')) {
+                             localStorage.removeItem('resaleItems');
+                             localStorage.removeItem('racksSettings');
+                             localStorage.removeItem('accessibleMode');
+                             window.location.reload();
+                         }
+                     }
+                 },
+
+                 applyDarkMode() {
+                     if (this.settings.darkMode) {
+                         document.body.classList.add('dark-mode');
+                         console.log('Dark mode enabled');
+                     } else {
+                         document.body.classList.remove('dark-mode');
+                         console.log('Dark mode disabled');
+                     }
+                 },
+
+                 handleTileImageUpload(event) {
+                     const file = event.target.files[0];
+                     if (file) {
+                         const reader = new FileReader();
+                         reader.onload = (e) => {
+                             this.settings.tileImage = e.target.result;
+                             this.saveSettings();
+                             this.applyTiledBackground();
+                             
+                             // Extract colors from the uploaded image
+                             if (this.settings.dynamicColors) {
+                                 this.extractColorsFromImage(e.target.result);
+                             }
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                     // Reset file input
+                     event.target.value = '';
+                 },
+
+                 removeTileImage() {
+                     this.settings.tileImage = null;
+                     this.settings.extractedColors = null;
+                     this.saveSettings();
+                     this.applyTiledBackground();
+                     this.applyDynamicColors();
+                 },
+
+                 getTiledBackgroundStyle() {
+                     if (!this.settings.tileImage) return '';
+                     
+                     const sizeMap = {
+                         tiny: '25px',
+                         small: '50px',
+                         medium: '100px',
+                         large: '150px',
+                         xlarge: '200px',
+                         jumbo: '300px',
+                         massive: '400px'
+                     };
+                     
+                     return {
+                         'background-image': `url(${this.settings.tileImage})`,
+                         '--tile-size': sizeMap[this.settings.tileSize] || '100px',
+                         '--tile-opacity': this.settings.tileOpacity,
+                         'background-size': sizeMap[this.settings.tileSize] || '100px'
+                     };
+                 },
+
+                 applyTiledBackground() {
+                     // This function is called to trigger reactivity when settings change
+                     // The actual styling is handled by getTiledBackgroundStyle()
+                 },
+
+                 extractColorsFromImage(imageDataUrl) {
+                     return new Promise((resolve) => {
+                         const img = new Image();
+                         img.crossOrigin = 'anonymous';
+                         img.onload = () => {
+                             const canvas = document.createElement('canvas');
+                             const ctx = canvas.getContext('2d');
+                             
+                             // Resize image for faster processing
+                             const maxSize = 150;
+                             const ratio = Math.min(maxSize / img.width, maxSize / img.height);
+                             canvas.width = img.width * ratio;
+                             canvas.height = img.height * ratio;
+                             
+                             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                             
+                             try {
+                                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                 const colors = this.analyzeImageColors(imageData);
+                                 
+                                 this.settings.extractedColors = colors;
+                                 this.saveSettings();
+                                 this.applyDynamicColors();
+                                 resolve(colors);
+                             } catch (error) {
+                                 console.error('Error extracting colors:', error);
+                                 resolve(null);
+                             }
+                         };
+                         img.src = imageDataUrl;
+                     });
+                 },
+
+                 analyzeImageColors(imageData) {
+                     const data = imageData.data;
+                     const colorCounts = {};
+                     const sampleRate = 4; // Sample every 4th pixel for performance
+                     
+                     // Extract colors
+                     for (let i = 0; i < data.length; i += 4 * sampleRate) {
+                         const r = data[i];
+                         const g = data[i + 1];
+                         const b = data[i + 2];
+                         const a = data[i + 3];
+                         
+                         // Skip transparent pixels
+                         if (a < 125) continue;
+                         
+                         // Group similar colors (reduce precision)
+                         const key = `${Math.floor(r/20)*20}-${Math.floor(g/20)*20}-${Math.floor(b/20)*20}`;
+                         colorCounts[key] = (colorCounts[key] || 0) + 1;
+                     }
+                     
+                     // Sort colors by frequency
+                     const sortedColors = Object.entries(colorCounts)
+                         .sort(([,a], [,b]) => b - a)
+                         .slice(0, 10) // Top 10 colors
+                         .map(([color]) => {
+                             const [r, g, b] = color.split('-').map(Number);
+                             return { r, g, b };
+                         });
+                     
+                     return this.generateColorScheme(sortedColors);
+                 },
+
+                 generateColorScheme(dominantColors) {
+                     if (dominantColors.length === 0) return null;
+                     
+                     // Get the most dominant color as base
+                     const baseColor = dominantColors[0];
+                     
+                     // Create soft, muted primary color for easier viewing
+                     const primaryColor = this.createSoftColor(baseColor);
+                     
+                     // Create harmonious secondary color
+                     const secondaryColor = this.createHarmoniousSecondary(primaryColor);
+                     
+                     // Create gentle accent color
+                     const accentColor = this.createGentleAccent(primaryColor);
+                     
+                     return {
+                         primary: this.rgbToHex(primaryColor),
+                         secondary: this.rgbToHex(secondaryColor),
+                         accent: this.rgbToHex(accentColor),
+                         bgLight: `rgba(${primaryColor.r}, ${primaryColor.g}, ${primaryColor.b}, 0.02)`,
+                         bgDark: `rgba(${primaryColor.r}, ${primaryColor.g}, ${primaryColor.b}, 0.05)`,
+                         textLight: '#ffffff',
+                         textDark: '#1f2937'
+                     };
+                 },
+
+                 createSoftColor(color) {
+                     const hsl = this.rgbToHsl(color);
+                     
+                     // Make it soft and muted for easy viewing
+                     hsl.s = Math.min(Math.max(hsl.s, 25), 60); // Moderate saturation (25-60%)
+                     hsl.l = Math.min(Math.max(hsl.l, 45), 75); // Mid-range lightness (45-75%)
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 createHarmoniousSecondary(primaryColor) {
+                     const hsl = this.rgbToHsl(primaryColor);
+                     
+                     // Shift hue by 30-60 degrees for harmony
+                     hsl.h = (hsl.h + 45) % 360;
+                     
+                     // Make it slightly more muted
+                     hsl.s = Math.max(hsl.s * 0.8, 20);
+                     hsl.l = Math.min(hsl.l * 1.1, 80);
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 createGentleAccent(primaryColor) {
+                     const hsl = this.rgbToHsl(primaryColor);
+                     
+                     // Analogous color (close hue) for gentle accent
+                     hsl.h = (hsl.h + 120) % 360;
+                     
+                     // Keep it soft and pleasant
+                     hsl.s = Math.min(hsl.s * 0.9, 50);
+                     hsl.l = Math.min(Math.max(hsl.l, 50), 70);
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 findContrastingColor(colors, primaryColor) {
+                     // Look for a color with sufficient contrast and different hue
+                     for (let color of colors) {
+                         const distance = this.getColorDistance(primaryColor, color);
+                         const contrastRatio = this.getContrastRatio(primaryColor, color);
+                         
+                         if (distance > 120 && contrastRatio > 2.5) {
+                             return this.enhanceColorForVisibility(color);
+                         }
+                     }
+                     return null;
+                 },
+
+                 generateContrastingSecondary(primaryColor) {
+                     const hsl = this.rgbToHsl(primaryColor);
+                     
+                     // Shift hue by 60-120 degrees for pleasing contrast
+                     hsl.h = (hsl.h + 90) % 360;
+                     
+                     // Adjust lightness for contrast
+                     if (hsl.l > 50) {
+                         hsl.l = Math.max(hsl.l - 30, 25); // Darken if light
+                     } else {
+                         hsl.l = Math.min(hsl.l + 30, 75); // Lighten if dark
+                     }
+                     
+                     // Ensure good saturation
+                     hsl.s = Math.max(hsl.s, 45);
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 getHighContrastComplement(color) {
+                     const hsl = this.rgbToHsl(color);
+                     
+                     // True complementary (180 degrees)
+                     hsl.h = (hsl.h + 180) % 360;
+                     
+                     // Boost saturation for vibrancy
+                     hsl.s = Math.min(hsl.s * 1.3, 85);
+                     
+                     // Ensure good contrast by adjusting lightness
+                     const originalBrightness = this.getBrightness(color);
+                     if (originalBrightness > 128) {
+                         hsl.l = Math.max(hsl.l - 25, 35); // Make darker if original is light
+                     } else {
+                         hsl.l = Math.min(hsl.l + 25, 65); // Make lighter if original is dark
+                     }
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 getContrastRatio(color1, color2) {
+                     const l1 = this.getRelativeLuminance(color1);
+                     const l2 = this.getRelativeLuminance(color2);
+                     const lighter = Math.max(l1, l2);
+                     const darker = Math.min(l1, l2);
+                     return (lighter + 0.05) / (darker + 0.05);
+                 },
+
+                 getRelativeLuminance(color) {
+                     const rs = color.r / 255;
+                     const gs = color.g / 255;
+                     const bs = color.b / 255;
+                     
+                     const r = rs <= 0.03928 ? rs / 12.92 : Math.pow((rs + 0.055) / 1.055, 2.4);
+                     const g = gs <= 0.03928 ? gs / 12.92 : Math.pow((gs + 0.055) / 1.055, 2.4);
+                     const b = bs <= 0.03928 ? bs / 12.92 : Math.pow((bs + 0.055) / 1.055, 2.4);
+                     
+                     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                 },
+
+                 ensureTextContrast(textColor, backgroundColor) {
+                     const textRgb = this.hexToRgb(textColor);
+                     const contrastRatio = this.getContrastRatio(textRgb, backgroundColor);
+                     
+                     // WCAG AA standard requires 4.5:1 for normal text
+                     if (contrastRatio >= 4.5) {
+                         return textColor;
+                     }
+                     
+                     // If contrast is poor, return high contrast alternative
+                     const bgBrightness = this.getBrightness(backgroundColor);
+                     return bgBrightness > 128 ? '#000000' : '#ffffff';
+                 },
+
+                 hexToRgb(hex) {
+                     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                     return result ? {
+                         r: parseInt(result[1], 16),
+                         g: parseInt(result[2], 16),
+                         b: parseInt(result[3], 16)
+                     } : { r: 0, g: 0, b: 0 };
+                 },
+
+                 getColorDistance(color1, color2) {
+                     return Math.sqrt(
+                         Math.pow(color1.r - color2.r, 2) +
+                         Math.pow(color1.g - color2.g, 2) +
+                         Math.pow(color1.b - color2.b, 2)
+                     );
+                 },
+
+                 getComplementaryColor(color) {
+                     // Convert to HSL for better color harmony
+                     const hsl = this.rgbToHsl(color);
+                     
+                     // Rotate hue by 180 degrees for complementary
+                     hsl.h = (hsl.h + 180) % 360;
+                     
+                     // Adjust saturation and lightness for better contrast
+                     hsl.s = Math.min(hsl.s * 1.2, 100);
+                     hsl.l = hsl.l > 50 ? hsl.l * 0.7 : hsl.l * 1.3;
+                     
+                     return this.hslToRgb(hsl);
+                 },
+
+                 getBrightness(color) {
+                     return (color.r * 299 + color.g * 587 + color.b * 114) / 1000;
+                 },
+
+                 rgbToHex(color) {
+                     const toHex = (n) => {
+                         const hex = Math.round(Math.max(0, Math.min(255, n))).toString(16);
+                         return hex.length === 1 ? '0' + hex : hex;
+                     };
+                     return `#${toHex(color.r)}${toHex(color.g)}${toHex(color.b)}`;
+                 },
+
+                 rgbToHsl(color) {
+                     const r = color.r / 255;
+                     const g = color.g / 255;
+                     const b = color.b / 255;
+                     
+                     const max = Math.max(r, g, b);
+                     const min = Math.min(r, g, b);
+                     let h, s, l = (max + min) / 2;
+                     
+                     if (max === min) {
+                         h = s = 0;
+                     } else {
+                         const d = max - min;
+                         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                         switch (max) {
+                             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                             case g: h = (b - r) / d + 2; break;
+                             case b: h = (r - g) / d + 4; break;
+                         }
+                         h /= 6;
+                     }
+                     
+                     return { h: h * 360, s: s * 100, l: l * 100 };
+                 },
+
+                 hslToRgb(hsl) {
+                     const h = hsl.h / 360;
+                     const s = hsl.s / 100;
+                     const l = hsl.l / 100;
+                     
+                     const hue2rgb = (p, q, t) => {
+                         if (t < 0) t += 1;
+                         if (t > 1) t -= 1;
+                         if (t < 1/6) return p + (q - p) * 6 * t;
+                         if (t < 1/2) return q;
+                         if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                         return p;
+                     };
+                     
+                     let r, g, b;
+                     if (s === 0) {
+                         r = g = b = l;
+                     } else {
+                         const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                         const p = 2 * l - q;
+                         r = hue2rgb(p, q, h + 1/3);
+                         g = hue2rgb(p, q, h);
+                         b = hue2rgb(p, q, h - 1/3);
+                     }
+                     
+                     return {
+                         r: Math.round(r * 255),
+                         g: Math.round(g * 255),
+                         b: Math.round(b * 255)
+                     };
+                 },
+
+                 applyDynamicColors() {
+                     if (this.settings.dynamicColors && this.settings.extractedColors) {
+                         document.body.classList.add('dynamic-colors');
+                         
+                         // Apply extracted colors as CSS variables
+                         const root = document.documentElement;
+                         const colors = this.settings.extractedColors;
+                         
+                         root.style.setProperty('--extracted-primary', colors.primary);
+                         root.style.setProperty('--extracted-secondary', colors.secondary);
+                         root.style.setProperty('--extracted-accent', colors.accent);
+                         root.style.setProperty('--extracted-bg-light', colors.bgLight);
+                         root.style.setProperty('--extracted-bg-dark', colors.bgDark);
+                         root.style.setProperty('--extracted-text-light', colors.textLight);
+                         root.style.setProperty('--extracted-text-dark', colors.textDark);
+                         
+                         console.log('Dynamic colors applied:', colors);
+                     } else {
+                         document.body.classList.remove('dynamic-colors');
+                         console.log('Dynamic colors disabled');
+                     }
+                 },
+
+                                 init() {
+                     // Apply accessibility mode on load
+                     this.applyAccessibleMode();
+                     
+                     // Apply dark mode on load
+                     this.applyDarkMode();
+                     
+                     // Apply dynamic colors on load
+                     this.applyDynamicColors();
+                     
+                     // Watch for purchase price changes to auto-calculate listing price
+                     this.$watch('newItem.purchasePrice', (newValue) => {
+                         if (this.newItem.useAutoPricing && newValue) {
+                             this.newItem.listingPrice = this.calculateListingPrice(newValue);
+                         }
+                     });
+                     
+                     // Watch for pricing settings changes to recalculate
+                     this.$watch('settings.pricingMethod', () => {
+                         if (this.newItem.useAutoPricing && this.newItem.purchasePrice) {
+                             this.newItem.listingPrice = this.calculateListingPrice(this.newItem.purchasePrice);
+                         }
+                     });
+                     
+                     this.$watch('settings.markupValue', () => {
+                         if (this.newItem.useAutoPricing && this.newItem.purchasePrice) {
+                             this.newItem.listingPrice = this.calculateListingPrice(this.newItem.purchasePrice);
+                         }
+                     });
+
+                     // Watch for edit item purchase price changes to auto-calculate listing price
+                     this.$watch('editItem.purchasePrice', (newValue) => {
+                         if (this.editItem.useAutoPricing && newValue) {
+                             this.editItem.listingPrice = this.calculateListingPrice(newValue);
+                         }
+                     });
+                 }
+            }
+        }
+    </script>
+</body>
+</html>

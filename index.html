@@ -324,10 +324,244 @@
              body {
                  padding-top: 70px; /* Reduced for mobile */
              }
-         }
+        }
 
-         @media (max-width: 480px) {
-            .container {
+        /* Cute Robot AI Scan Notification */
+        .ai-robot-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            text-align: center;
+            min-width: 320px;
+            animation: robotSlideIn 0.6s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .ai-robot-notification.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .ai-robot-notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .robot-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .robot-body {
+            font-size: 4rem;
+            animation: robotFloat 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            position: relative;
+        }
+
+        .robot-eyes {
+            position: absolute;
+            top: -0.1em;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.3em;
+            font-size: 0.25em;
+        }
+
+        .robot-eye {
+            width: 1em;
+            height: 1em;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: robotBlink 3s ease-in-out infinite;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        .robot-antenna {
+            position: absolute;
+            top: -0.4em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 0.3em;
+            background: #fff;
+            border-radius: 1px;
+        }
+
+        .robot-antenna::after {
+            content: '';
+            position: absolute;
+            top: -0.1em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0.15em;
+            height: 0.15em;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation: antennaGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        .scan-message {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        .scan-details {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .scanning-progress {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .scan-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: scanDots 1.4s ease-in-out infinite;
+        }
+
+        .scan-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .scan-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .success-sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.5rem;
+            animation: sparkleFloat 2s ease-out infinite;
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 20%; animation-delay: 0.3s; }
+        .sparkle:nth-child(3) { bottom: 25%; left: 25%; animation-delay: 0.6s; }
+        .sparkle:nth-child(4) { bottom: 15%; right: 15%; animation-delay: 0.9s; }
+
+        @keyframes robotSlideIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes robotFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotate(-1deg);
+            }
+            50% {
+                transform: translateY(-4px) rotate(1deg);
+            }
+            75% {
+                transform: translateY(-12px) rotate(-0.5deg);
+            }
+        }
+
+        @keyframes robotBlink {
+            0%, 85%, 100% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+            90%, 95% {
+                opacity: 0.3;
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes antennaGlow {
+            0% {
+                box-shadow: 0 0 5px #ff6b6b;
+                background: #ff6b6b;
+            }
+            100% {
+                box-shadow: 0 0 15px #ff6b6b, 0 0 25px #ff6b6b;
+                background: #ff9999;
+            }
+        }
+
+        @keyframes textPulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        @keyframes scanDots {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0px) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-10px) rotate(90deg) scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(-30px) rotate(270deg) scale(1);
+            }
+            100% {
+                transform: translateY(-50px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+           .container {
                 padding: 0.5rem 1rem;
                 padding-bottom: 120px;
                 max-width: 100%;
@@ -3309,7 +3543,7 @@
         /* Dashboard Styles */
         .dashboard-grid {
             display: grid;
-            gap: 1.5rem;
+            gap: 0.75rem;
         }
 
         .metrics-row {
@@ -7741,6 +7975,475 @@
             box-shadow: 0 8px 32px rgba(5, 150, 105, 0.4);
         }
 
+        /* Dark mode cute notifications */
+        .dark-mode .cute-notification-toast {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95)) !important;
+            border: 2px solid rgba(244, 114, 182, 0.3) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode .notification-message {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .notification-subtitle {
+            color: #9ca3af;
+        }
+
+        .dark-mode .cute-notification-close {
+            color: #f472b6;
+        }
+
+        .dark-mode .cute-notification-close:hover {
+            background: rgba(244, 114, 182, 0.2);
+        }
+
+        /* Dark mode robot AI scan notification */
+        .dark-mode .ai-robot-notification {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            border: 2px solid rgba(244, 114, 182, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .dark-mode .ai-robot-notification.success {
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            border: 2px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .dark-mode .ai-robot-notification.error {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            border: 2px solid rgba(239, 68, 68, 0.4);
+        }
+
+        /* Dark mode About, Contact, and Sign In pages */
+        .dark-mode .about-page, 
+        .dark-mode .contact-page, 
+        .dark-mode .signin-page {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .about-hero h1, 
+        .dark-mode .contact-hero h1, 
+        .dark-mode .signin-hero h1 {
+            color: #f472b6;
+        }
+
+        .dark-mode .about-subtitle, 
+        .dark-mode .contact-subtitle, 
+        .dark-mode .signin-subtitle {
+            color: #9ca3af;
+        }
+
+        .dark-mode .about-section h2, 
+        .dark-mode .contact-section h2 {
+            color: #f472b6;
+        }
+
+        .dark-mode .about-section p, 
+        .dark-mode .contact-section p {
+            color: #d1d5db;
+        }
+
+        .dark-mode .feature-card {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .feature-card i {
+            color: #f472b6;
+        }
+
+        .dark-mode .feature-card h3 {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .feature-card p {
+            color: #9ca3af;
+        }
+
+        .dark-mode .contact-method {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .contact-method i {
+            color: #f472b6;
+        }
+
+        .dark-mode .contact-method h3 {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .contact-method p {
+            color: #9ca3af;
+        }
+
+        .dark-mode .signin-form {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .signin-form h2 {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .signin-links a {
+            color: #f472b6;
+        }
+
+        .dark-mode .signin-links a:hover {
+            color: #ec4899;
+        }
+
+        /* Dark mode for all modals with inline white backgrounds */
+        .dark-mode .modal-content[style*="background: white"],
+        .dark-mode .qr-modal-content[style*="background: white"] {
+            background: #1f2937 !important;
+            color: #e5e7eb !important;
+            border: 1px solid rgba(75, 85, 99, 0.3) !important;
+        }
+
+        .dark-mode .modal-content h3,
+        .dark-mode .modal-content h2,
+        .dark-mode .modal-content h1,
+        .dark-mode .qr-modal-content h3,
+        .dark-mode .qr-modal-content h2,
+        .dark-mode .qr-modal-content h1 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .modal-content label,
+        .dark-mode .qr-modal-content label {
+            color: #d1d5db !important;
+        }
+
+        .dark-mode .modal-content input,
+        .dark-mode .modal-content select,
+        .dark-mode .modal-content textarea,
+        .dark-mode .qr-modal-content input,
+        .dark-mode .qr-modal-content select,
+        .dark-mode .qr-modal-content textarea {
+            background: #374151 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #4b5563 !important;
+        }
+
+        .dark-mode .modal-content input:focus,
+        .dark-mode .modal-content select:focus,
+        .dark-mode .modal-content textarea:focus,
+        .dark-mode .qr-modal-content input:focus,
+        .dark-mode .qr-modal-content select:focus,
+        .dark-mode .qr-modal-content textarea:focus {
+            border-color: #f472b6 !important;
+            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.15) !important;
+        }
+
+        .dark-mode .modal-content .help-text,
+        .dark-mode .modal-content .method-description,
+        .dark-mode .qr-modal-content .help-text {
+            color: #9ca3af !important;
+        }
+
+        /* Dark mode for percentage and pricing settings */
+        .dark-mode .pricing-settings,
+        .dark-mode .pricing-method-switches,
+        .dark-mode .switch-group {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .method-description {
+            color: #9ca3af !important;
+        }
+
+        .dark-mode .toggle-label {
+            color: #d1d5db !important;
+        }
+
+        .dark-mode .toggle-switch {
+            background: #374151 !important;
+            border: 1px solid #4b5563 !important;
+        }
+
+        .dark-mode .toggle-switch::before {
+            background: #6b7280 !important;
+        }
+
+        .dark-mode input:checked + .toggle-switch {
+            background: #f472b6 !important;
+        }
+
+        .dark-mode input:checked + .toggle-switch::before {
+            background: white !important;
+        }
+
+        /* White content wrappers for tiled background readability */
+        .content-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark-mode .content-wrapper {
+            background: rgba(31, 41, 55, 0.95);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced content wrappers for pages */
+        .about-page, .contact-page, .signin-page {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem auto;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .dark-mode .about-page, 
+        .dark-mode .contact-page, 
+        .dark-mode .signin-page {
+            background: rgba(31, 41, 55, 0.95);
+            border: 2px solid rgba(75, 85, 99, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Enhanced feature cards and contact methods for tiled backgrounds */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .contact-method {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .signin-form {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Dark mode overrides for enhanced cards */
+        .dark-mode .feature-card {
+            background: rgba(31, 41, 55, 0.9) !important;
+            border: 2px solid rgba(75, 85, 99, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dark-mode .contact-method {
+            background: rgba(31, 41, 55, 0.9) !important;
+            border: 2px solid rgba(75, 85, 99, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dark-mode .signin-form {
+            background: rgba(31, 41, 55, 0.9) !important;
+            border: 2px solid rgba(75, 85, 99, 0.5) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* Dark mode for bulk actions panel */
+        .dark-mode .bulk-actions-panel {
+            background: linear-gradient(135deg, #1f2937, #111827) !important;
+            border-top: 1px solid rgba(75, 85, 99, 0.3) !important;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dark-mode .bulk-actions-content {
+            color: #e5e7eb !important;
+        }
+
+        .dark-mode .bulk-info span {
+            color: #d1d5db !important;
+        }
+
+        /* Dark mode for all bulk modals with inline styles */
+        .dark-mode div[x-show="showBulkEditModal"] .modal-content,
+        .dark-mode div[x-show="showBulkEditSoldModal"] .modal-content,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] .modal-content,
+        .dark-mode div[x-show="showBulkReturnModal"] > div {
+            background: #1f2937 !important;
+            color: #e5e7eb !important;
+            border: 1px solid rgba(75, 85, 99, 0.3) !important;
+        }
+
+        .dark-mode div[x-show="showBulkEditModal"] h3,
+        .dark-mode div[x-show="showBulkEditSoldModal"] h3,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] h3,
+        .dark-mode div[x-show="showBulkReturnModal"] h3 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode div[x-show="showBulkEditModal"] p,
+        .dark-mode div[x-show="showBulkEditSoldModal"] p,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] p,
+        .dark-mode div[x-show="showBulkReturnModal"] p {
+            color: #9ca3af !important;
+        }
+
+        .dark-mode div[x-show="showBulkEditModal"] label,
+        .dark-mode div[x-show="showBulkEditSoldModal"] label,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] label,
+        .dark-mode div[x-show="showBulkReturnModal"] label {
+            color: #d1d5db !important;
+        }
+
+        .dark-mode div[x-show="showBulkEditModal"] input,
+        .dark-mode div[x-show="showBulkEditModal"] select,
+        .dark-mode div[x-show="showBulkEditModal"] textarea,
+        .dark-mode div[x-show="showBulkEditSoldModal"] input,
+        .dark-mode div[x-show="showBulkEditSoldModal"] select,
+        .dark-mode div[x-show="showBulkEditSoldModal"] textarea,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] input,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] select,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] textarea,
+        .dark-mode div[x-show="showBulkReturnModal"] input,
+        .dark-mode div[x-show="showBulkReturnModal"] select,
+        .dark-mode div[x-show="showBulkReturnModal"] textarea {
+            background: #374151 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #4b5563 !important;
+        }
+
+        .dark-mode div[x-show="showBulkEditModal"] small,
+        .dark-mode div[x-show="showBulkEditSoldModal"] small,
+        .dark-mode div[x-show="showBulkMoveToSoldModal"] small,
+        .dark-mode div[x-show="showBulkReturnModal"] small {
+            color: #9ca3af !important;
+        }
+
+        /* Dark mode for item cards */
+        .dark-mode .item-card {
+            background: rgba(31, 41, 55, 0.95) !important;
+            border: 1px solid rgba(75, 85, 99, 0.4) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .dark-mode .item-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+            border-color: rgba(244, 114, 182, 0.4) !important;
+        }
+
+        .dark-mode .inventory-card {
+            background: #1f2937 !important;
+            border: 2px solid rgba(75, 85, 99, 0.3) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dark-mode .inventory-card:hover {
+            border-color: rgba(75, 85, 99, 0.5) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode .card-header {
+            border-bottom: 1px solid rgba(75, 85, 99, 0.3) !important;
+        }
+
+        .dark-mode .card-title h5 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .overview-header {
+            background: linear-gradient(135deg, #1f2937, #111827) !important;
+            border: 1px solid rgba(75, 85, 99, 0.3) !important;
+        }
+
+        .dark-mode .overview-header h4 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .stat-number {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .stat-label {
+            color: #9ca3af !important;
+        }
+
+        /* Dark mode for pricing method selection cards */
+        .dark-mode .switch-group {
+            background: #1f2937 !important;
+            border: 2px solid rgba(75, 85, 99, 0.4) !important;
+        }
+
+        .dark-mode .switch-group:hover {
+            border-color: rgba(75, 85, 99, 0.6) !important;
+            background: #111827 !important;
+        }
+
+        .dark-mode .switch-group:has(input:checked) {
+            border-color: #f472b6 !important;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.9)) !important;
+            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2) !important;
+        }
+
+        .dark-mode .switch-group:has(input:checked) .toggle-label {
+            color: #f472b6 !important;
+        }
+
+        .dark-mode .switch-group:has(input:checked) .method-description {
+            color: #d1d5db !important;
+        }
+
+        /* Dark mode for payment method cards */
+        .dark-mode .payment-method-card {
+            background: #1f2937 !important;
+            border: 1px solid rgba(75, 85, 99, 0.4) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .dark-mode .payment-method-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+            border-color: rgba(75, 85, 99, 0.6) !important;
+        }
+
+        .dark-mode .payment-header h4 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .qr-error {
+            background: #7f1d1d !important;
+            border: 1px solid #991b1b !important;
+            color: #fecaca !important;
+        }
+
+        .dark-mode .qr-error p {
+            color: #fecaca !important;
+        }
+
+        .dark-mode .qr-error small {
+            color: #fca5a5 !important;
+        }
+
+        /* Strengthen till header dark mode styles */
+        .dark-mode .till-header-wrapper {
+            background: linear-gradient(135deg, #1f2937, #111827) !important;
+            border: 1px solid rgba(75, 85, 99, 0.3) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode .till-header h2 {
+            color: #f9fafb !important;
+        }
+
+        .dark-mode .till-header p {
+            color: #d1d5db !important;
+        }
+
         /* Cute Upload Notification Styles */
         .cute-notification-toast {
             position: fixed !important;
@@ -9551,7 +10254,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Missing Info</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Missing Info').length">0</div>
-                                <div class="stage-subtitle">Needs details</div>
                                 <div class="stage-value" x-text="'$' + getItemsByStatus('Missing Info').reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)">$0.00</div>
                                 </div>
                             <div class="stage-arrow">
@@ -9567,7 +10269,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Itemized</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Itemized').length">0</div>
-                                <div class="stage-subtitle">Info complete</div>
                                 <div class="stage-value" x-text="'$' + getItemsByStatus('Itemized').reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)">$0.00</div>
                                 </div>
                             <div class="stage-arrow">
@@ -9583,7 +10284,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Sanitize</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Sanitize').length">0</div>
-                                <div class="stage-subtitle">Being cleaned</div>
                                 <div class="stage-value" x-text="'$' + getItemsByStatus('Sanitize').reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)">$0.00</div>
                             </div>
                             <div class="stage-arrow">
@@ -9599,7 +10299,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Racked</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Racked').length">0</div>
-                                <div class="stage-subtitle">Ready to photo</div>
                                 <div class="stage-value" x-text="'$' + getItemsByStatus('Racked').reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)">$0.00</div>
                                 </div>
                             <div class="stage-arrow">
@@ -9615,7 +10314,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Listed</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Listed').length">0</div>
-                                <div class="stage-subtitle">For sale</div>
                                 <div class="stage-value" x-text="'$' + getItemsByStatus('Listed').reduce((sum, item) => sum + (item.listingPrice || 0), 0).toFixed(2)">$0.00</div>
                                 </div>
                             <div class="stage-arrow">
@@ -9631,7 +10329,6 @@
                             <div class="stage-content">
                                 <div class="stage-title">Sold</div>
                                 <div class="stage-count" x-text="getItemsByStatus('Sold').length">0</div>
-                                <div class="stage-subtitle">Completed</div>
                                 <div class="stage-value profit" x-text="'$' + getItemsByStatus('Sold').reduce((sum, item) => sum + ((item.salePrice || item.listingPrice || 0) - (item.purchasePrice || 0)), 0).toFixed(2)">$0.00</div>
                             </div>
                         </div>
@@ -9639,39 +10336,6 @@
 
                 </div>
 
-                <!-- Dashboard Metrics -->
-                <div>
-                    <div class="metric-card">
-                        <div class="metric-icon info">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="metric-content">
-                            <div class="metric-value" x-text="averageProfit ? '$' + averageProfit.toFixed(2) : '$0.00'">$0.00</div>
-                            <div class="metric-label">Avg Profit/Item</div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon info">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <div class="metric-content">
-                            <div class="metric-value" x-text="profitMargin ? profitMargin.toFixed(1) + '%' : '0%'">0%</div>
-                            <div class="metric-label">Profit Margin</div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card" @click="showReturnedItems()" style="cursor: pointer;" :class="{ 'has-items': returnedItems.length > 0 }">
-                        <div class="metric-icon warning">
-                            <i class="fas fa-undo"></i>
-                        </div>
-                        <div class="metric-content">
-                            <div class="metric-value" x-text="returnedItems.length">0</div>
-                            <div class="metric-label">Returned Items</div>
-                            <div class="metric-subtitle" x-text="'$' + returnedItemsValue.toFixed(2) + ' lost'" x-show="returnedItemsValue > 0" style="font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem;">$0.00 lost</div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Garment Type Analytics -->
                 <div class="card">
@@ -10099,7 +10763,20 @@
                     </div>
 
                         <div class="form-section">
-                            <h4><i class="fas fa-tshirt"></i> Item Classification</h4>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4><i class="fas fa-tshirt"></i> Item Classification</h4>
+                                <button type="button" 
+                                        @click="detectPriceFromPhoto()" 
+                                        class="btn btn-secondary btn-small price-detect-btn"
+                                        :disabled="!newItem.photos.length || ocrProcessing"
+                                        x-show="newItem.photos.length > 0"
+                                        title="AI Scan for price and garment type">
+                                    <i class="fas fa-robot" x-show="!ocrProcessing"></i>
+                                    <i class="fas fa-spinner fa-spin" x-show="ocrProcessing"></i>
+                                    <span x-show="!ocrProcessing">AI Scan</span>
+                                    <span x-show="ocrProcessing">Scanning...</span>
+                                </button>
+                            </div>
                             <div class="form-group">
                                 <label for="garmentType">Garment Type *</label>
                                 <select id="garmentType" x-model="newItem.garmentType" required class="form-select">
@@ -10129,19 +10806,7 @@
                     <div class="form-row">
                  <div class="form-group">
                      <label for="purchasePrice">Purchase Price ($)</label>
-                     <div class="price-input-group">
                                         <input type="number" id="purchasePrice" x-model="newItem.purchasePrice" step="0.01" min="0" required class="form-input">
-                         <button type="button" 
-                                 @click="detectPriceFromPhoto()" 
-                                 class="btn btn-secondary btn-small price-detect-btn"
-                                 :disabled="!newItem.photos.length || ocrProcessing"
-                                 x-show="newItem.photos.length > 0">
-                             <i class="fas fa-robot" x-show="!ocrProcessing"></i>
-                             <i class="fas fa-spinner fa-spin" x-show="ocrProcessing"></i>
-                                            <span x-show="!ocrProcessing">AI Scan</span>
-                             <span x-show="ocrProcessing">Scanning...</span>
-                         </button>
-                     </div>
                      <div x-show="ocrResults && (ocrResults.suggestedPrice || ocrResults.garmentType)" class="ocr-suggestion">
                          <div x-show="ocrResults.suggestedPrice" class="suggestion-text">
                              <i class="fas fa-lightbulb"></i>
@@ -10920,7 +11585,20 @@
                  </div>
 
                  <div class="form-group">
-                     <label for="editGarmentType">Garment Type *</label>
+                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                         <label for="editGarmentType">Garment Type *</label>
+                         <button type="button" 
+                                 @click="detectPriceFromEditPhoto()" 
+                                 class="btn btn-secondary btn-small price-detect-btn"
+                                 :disabled="!editItem.photos.length || ocrProcessing"
+                                 x-show="editItem.photos.length > 0"
+                                 title="AI Scan for price and garment type">
+                             <i class="fas fa-robot" x-show="!ocrProcessing"></i>
+                             <i class="fas fa-spinner fa-spin" x-show="ocrProcessing"></i>
+                             <span x-show="!ocrProcessing">AI Scan</span>
+                             <span x-show="ocrProcessing">Scanning...</span>
+                         </button>
+                     </div>
                      <select id="editGarmentType" x-model="editItem.garmentType" required>
                          <option value="">Select garment type...</option>
                          <option value="Shirt">Shirt</option>
@@ -10940,6 +11618,33 @@
                          <i class="fas fa-info-circle"></i>
                          Required field for tracking inventory by garment type
                      </small>
+                     
+                     <!-- OCR Results Display for Edit Modal -->
+                     <div x-show="ocrResults && (ocrResults.suggestedPrice || ocrResults.garmentType)" class="ocr-suggestion">
+                         <div x-show="ocrResults.suggestedPrice" class="suggestion-text">
+                             <i class="fas fa-lightbulb"></i>
+                             Found price: <strong>$<span x-text="ocrResults.suggestedPrice"></span></strong>
+                             <button type="button" @click="editItem.purchasePrice = ocrResults.suggestedPrice" class="btn-link">Use this price</button>
+                         </div>
+                         <div x-show="ocrResults.garmentType" class="suggestion-text" style="margin-top: 0.5rem;">
+                             <i class="fas fa-tshirt"></i>
+                             Detected type: <strong x-text="ocrResults.garmentType"></strong>
+                             <button type="button" @click="editItem.garmentType = ocrResults.garmentType" class="btn-link">Use this type</button>
+                         </div>
+                     </div>
+                     <div x-show="ocrResults && ocrResults.prices && ocrResults.prices.length > 1" class="multiple-prices">
+                         <p class="suggestion-text">Other prices found:</p>
+                         <div class="price-options">
+                             <template x-for="price in ocrResults.prices.slice(1)" :key="price">
+                                 <button type="button" @click="editItem.purchasePrice = price" class="price-option">
+                                     $<span x-text="price"></span>
+                                 </button>
+                             </template>
+                         </div>
+                     </div>
+                     <div x-show="ocrResults && ocrResults.error" class="ocr-error">
+                         <p><i class="fas fa-exclamation-triangle"></i> <span x-text="ocrResults.error"></span></p>
+                     </div>
                  </div>
 
                  <!-- Price and Details -->
@@ -11313,6 +12018,8 @@
                 showSignUp: false,
                 ocrProcessing: false,
                 ocrResults: null,
+                showRobotNotification: false,
+                robotNotificationState: 'scanning', // 'scanning', 'success', 'error'
                 filtersExpanded: false,
                 soldFiltersExpanded: false,
                 notification: {
@@ -11389,9 +12096,13 @@
                     status: '',
                     source: '',
                     listingPrice: '',
+                    garmentType: '',
+                    tags: '',
                     applyStatus: false,
                     applySource: false,
-                    applyListingPrice: false
+                    applyListingPrice: false,
+                    applyGarmentType: false,
+                    applyTags: false
                 },
                 showBulkMoveToSoldModal: false,
                 bulkMoveToSoldData: {
@@ -11406,9 +12117,13 @@
                     salePrice: '',
                     saleDate: '',
                     platform: '',
+                    garmentType: '',
+                    tags: '',
                     applySalePrice: false,
                     applySaleDate: false,
-                    applySalePlatform: false
+                    applySalePlatform: false,
+                    applyGarmentType: false,
+                    applyTags: false
                 },
                 showBulkReturnModal: false,
                 bulkReturnData: {
@@ -11797,17 +12512,6 @@
                     }, 0);
                 },
 
-                get averageProfit() {
-                    if (this.soldItems.length === 0) return 0;
-                    return this.totalProfit / this.soldItems.length;
-                },
-
-                get profitMargin() {
-                    if (this.soldItems.length === 0) return 0;
-                    const totalInvestment = this.soldItems.reduce((total, item) => total + item.purchasePrice, 0);
-                    const totalRevenue = this.soldItems.reduce((total, item) => total + item.salePrice, 0);
-                    return totalInvestment > 0 ? ((totalRevenue - totalInvestment) / totalRevenue) * 100 : 0;
-                },
 
                 get recentItems() {
                     return [...this.items]
@@ -11930,6 +12634,9 @@
                                   const now = new Date().toISOString();
                                   const description = file.name.replace(/\.[^/.]+$/, "") || `Item ${processedCount + 1}`;
                                   
+                                  // Determine status based on classification completeness
+                                  const hasAllClassificationFields = false; // Bulk uploads always start with missing info since fields are empty
+                                  
                                   const newItem = {
                                           id: Date.now() + fileIndex + Math.random(),
                                       photos: [dataURL],
@@ -11938,7 +12645,7 @@
                                       source: '',
                                       description: description,
                                       garmentType: '', // Will need to be filled in during editing
-                                      status: 'Incomplete',
+                                      status: 'Missing Info', // Always Missing Info for bulk uploads since classification fields are empty
                                       dateAdded: now,
                                       useAutoPricing: this.settings.autoPricing,
                                       tags: this.generateAutoTags(description, '', 0)
@@ -12126,6 +12833,13 @@
                     // Combine and deduplicate tags
                     const allTags = [...new Set([...autoTags, ...manualTags])];
                     
+                    // Determine status based on classification completeness
+                    const hasAllClassificationFields = this.newItem.garmentType && 
+                                                      this.newItem.purchasePrice && 
+                                                      this.newItem.source && 
+                                                      this.newItem.description && 
+                                                      this.newItem.photos.length > 0;
+                    
                     const item = {
                         id: Date.now(),
                         photos: [...this.newItem.photos],
@@ -12135,7 +12849,7 @@
                         source: this.newItem.source,
                         description: this.newItem.description,
                         garmentType: this.newItem.garmentType,
-                        status: 'Purchased',
+                        status: hasAllClassificationFields ? 'Itemized' : 'Missing Info',
                         dateAdded: new Date().toISOString(),
                         tags: allTags
                     };
@@ -12467,9 +13181,13 @@
                         status: '',
                         source: '',
                         listingPrice: '',
+                        garmentType: '',
+                        tags: '',
                         applyStatus: false,
                         applySource: false,
-                        applyListingPrice: false
+                        applyListingPrice: false,
+                        applyGarmentType: false,
+                        applyTags: false
                     };
                     
                     this.showBulkEditModal = true;
@@ -12494,6 +13212,20 @@
                             
                             if (this.bulkEditData.applyListingPrice && this.bulkEditData.listingPrice) {
                                 updatedItem.listingPrice = parseFloat(this.bulkEditData.listingPrice);
+                            }
+                            
+                            if (this.bulkEditData.applyGarmentType && this.bulkEditData.garmentType) {
+                                updatedItem.garmentType = this.bulkEditData.garmentType;
+                            }
+                            
+                            if (this.bulkEditData.applyTags && this.bulkEditData.tags) {
+                                // Parse new tags and add to existing tags
+                                const newTags = this.bulkEditData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+                                const existingTags = updatedItem.tags || [];
+                                
+                                // Combine and deduplicate tags
+                                const allTags = [...existingTags, ...newTags];
+                                updatedItem.tags = [...new Set(allTags)];
                             }
                             
                             updatedItem.dateModified = new Date().toISOString();
@@ -12602,9 +13334,13 @@
                         salePrice: '',
                         saleDate: '',
                         platform: '',
+                        garmentType: '',
+                        tags: '',
                         applySalePrice: false,
                         applySaleDate: false,
-                        applySalePlatform: false
+                        applySalePlatform: false,
+                        applyGarmentType: false,
+                        applyTags: false
                     };
                     
                     this.showBulkEditSoldModal = true;
@@ -12629,6 +13365,20 @@
                             
                             if (this.bulkEditSoldData.applySalePlatform && this.bulkEditSoldData.platform) {
                                 updatedItem.platform = this.bulkEditSoldData.platform;
+                            }
+                            
+                            if (this.bulkEditSoldData.applyGarmentType && this.bulkEditSoldData.garmentType) {
+                                updatedItem.garmentType = this.bulkEditSoldData.garmentType;
+                            }
+                            
+                            if (this.bulkEditSoldData.applyTags && this.bulkEditSoldData.tags) {
+                                // Parse new tags and add to existing tags
+                                const newTags = this.bulkEditSoldData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+                                const existingTags = updatedItem.tags || [];
+                                
+                                // Combine and deduplicate tags
+                                const allTags = [...existingTags, ...newTags];
+                                updatedItem.tags = [...new Set(allTags)];
                             }
                             
                             updatedItem.dateModified = new Date().toISOString();
@@ -12881,6 +13631,18 @@
                             
                             // Combine and deduplicate tags
                             const allTags = [...new Set([...autoTags, ...manualTags])];
+                            
+                            // Re-evaluate status based on classification completeness (only if not manually set to other statuses)
+                            const hasAllClassificationFields = this.editItem.garmentType && 
+                                                              this.editItem.purchasePrice && 
+                                                              this.editItem.source && 
+                                                              this.editItem.description && 
+                                                              this.editItem.photos.length > 0;
+                            
+                            // Auto-update status if currently Missing Info or Itemized
+                            if (this.editItem.status === 'Missing Info' || this.editItem.status === 'Itemized') {
+                                this.editItem.status = hasAllClassificationFields ? 'Itemized' : 'Missing Info';
+                            }
                             
                             // Save previous status if status is changing to Sold
                             const originalItem = this.items[itemIndex];
@@ -13627,7 +14389,6 @@
                         inventoryItems: this.inventoryItems.length,
                         totalRevenue: this.totalRevenue,
                         totalProfit: this.totalProfit,
-                        profitMargin: this.profitMargin,
                         itemsThisWeek: this.itemsThisWeek,
                         soldThisWeek: this.soldThisWeek,
                         garmentTypeStats: this.garmentTypeStats,
@@ -13670,9 +14431,11 @@ Generated: ${new Date(data.timestamp).toLocaleString()}
 📦 INVENTORY OVERVIEW
 • Total Items in Inventory: ${data.inventoryItems}
 • Items by Status:
-  - Purchased: ${this.getItemsByStatus('Purchased').length}
-  - Washed: ${this.getItemsByStatus('Washed').length}
+  - Missing Info: ${this.getItemsByStatus('Missing Info').length}
+  - Itemized: ${this.getItemsByStatus('Itemized').length}
+  - Sanitize: ${this.getItemsByStatus('Sanitize').length}
   - Racked: ${this.getItemsByStatus('Racked').length}
+  - Listed: ${this.getItemsByStatus('Listed').length}
 
 💵 INVENTORY VALUE
 • Total Investment: $${this.inventoryItems.reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)}
@@ -13729,8 +14492,6 @@ Generated: ${new Date(data.timestamp).toLocaleString()}
                             const avgInvestment = stats.count > 0 ? (stats.totalInvestment / stats.count).toFixed(2) : '0.00';
                             const avgRevenue = stats.sold > 0 ? (stats.totalRevenue / stats.sold).toFixed(2) : '0.00';
                             const sellThrough = stats.count > 0 ? ((stats.sold / stats.count) * 100).toFixed(1) : '0.0';
-                            const profitMargin = stats.totalRevenue > 0 ? (((stats.totalRevenue - stats.totalInvestment) / stats.totalRevenue) * 100).toFixed(1) : '0.0';
-                            
                             content += `
 ${type.toUpperCase()}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -13742,7 +14503,6 @@ ${type.toUpperCase()}
 • Total Profit: $${(stats.totalRevenue - stats.totalInvestment).toFixed(2)}
 • Avg Investment per Item: $${avgInvestment}
 • Avg Sale Price: $${avgRevenue}
-• Profit Margin: ${profitMargin}%
 `;
                         });
 
@@ -14000,6 +14760,8 @@ Report generated by Racks Resale Management System
                     try {
                         this.ocrProcessing = true;
                         this.ocrResults = null;
+                        this.showRobotNotification = true;
+                        this.robotNotificationState = 'scanning';
                         
                         // Convert data URL to base64 (remove the data:image/...;base64, prefix)
                         const base64Image = imageDataURL.split(',')[1];
@@ -14067,6 +14829,13 @@ Report generated by Racks Resale Management System
                                     garmentType: parsedResult.garmentType || null
                                 };
                                 
+                                // Set success state if we found useful data
+                                if (this.ocrResults.suggestedPrice || this.ocrResults.garmentType) {
+                                    this.robotNotificationState = 'success';
+                                } else {
+                                    this.robotNotificationState = 'error';
+                                }
+                                
                             } catch (parseError) {
                                 console.error('Failed to parse Gemini JSON response:', parseError);
                                 
@@ -14110,6 +14879,13 @@ Report generated by Racks Resale Management System
                                     suggestedPrice: uniquePrices.length > 0 ? uniquePrices[0] : null,
                                     garmentType: detectedGarmentType
                                 };
+                                
+                                // Set success state if we found useful data
+                                if (this.ocrResults.suggestedPrice || this.ocrResults.garmentType) {
+                                    this.robotNotificationState = 'success';
+                                } else {
+                                    this.robotNotificationState = 'error';
+                                }
                             }
                         } else {
                             throw new Error('Invalid response format from Gemini API');
@@ -14120,9 +14896,14 @@ Report generated by Racks Resale Management System
                     } catch (error) {
                         console.error('Gemini OCR Error:', error);
                         this.ocrResults = { error: 'Could not read price from image: ' + error.message };
+                        this.robotNotificationState = 'error';
                         return null;
                     } finally {
                         this.ocrProcessing = false;
+                        // Hide notification after a delay to let users see the result
+                        setTimeout(() => {
+                            this.showRobotNotification = false;
+                        }, 2500);
                     }
                 },
 
@@ -14162,6 +14943,54 @@ Report generated by Racks Resale Management System
                             if (detectedItems.length > 0) {
                                 message += detectedItems.join(', ');
                                 console.log(`Detection results from photo ${i + 1}:`, result);
+                                this.showAlert(message, 'success');
+                                return; // Stop scanning once we find useful data
+                            }
+                        }
+                    }
+                    
+                    // If no useful data was found in any photo
+                    if (!this.ocrResults || (!this.ocrResults.suggestedPrice && !this.ocrResults.garmentType)) {
+                        this.showAlert('No price tags or garment types detected in any of the photos. Try retaking photos with clear price tags and items visible.', 'warning');
+                    }
+                },
+
+                async detectPriceFromEditPhoto() {
+                    if (!this.editItem.photos.length) {
+                        this.showAlert('Please add a photo first', 'error');
+                        return;
+                    }
+                    
+                    // Sequential scanning: try each photo until we find one with a price
+                    for (let i = 0; i < this.editItem.photos.length; i++) {
+                        console.log(`Scanning edit photo ${i + 1} of ${this.editItem.photos.length} for price tags...`);
+                        
+                        const result = await this.detectPriceInImage(this.editItem.photos[i]);
+                        
+                        if (result && (result.suggestedPrice || result.garmentType)) {
+                            let message = `Detected from photo ${i + 1}: `;
+                            let detectedItems = [];
+                            
+                            // Auto-fill the purchase price field if detected
+                            if (result.suggestedPrice) {
+                                this.editItem.purchasePrice = result.suggestedPrice;
+                                detectedItems.push(`Price $${result.suggestedPrice}`);
+                                
+                                // Update listing price if auto-pricing is enabled
+                                if (this.editItem.useAutoPricing) {
+                                    this.editItem.listingPrice = this.calculateListingPrice(this.editItem.purchasePrice);
+                                }
+                            }
+                            
+                            // Auto-fill the garment type field if detected and not already set
+                            if (result.garmentType && !this.editItem.garmentType) {
+                                this.editItem.garmentType = result.garmentType;
+                                detectedItems.push(`Type: ${result.garmentType}`);
+                            }
+                            
+                            if (detectedItems.length > 0) {
+                                message += detectedItems.join(', ');
+                                console.log(`Detection results from edit photo ${i + 1}:`, result);
                                 this.showAlert(message, 'success');
                                 return; // Stop scanning once we find useful data
                             }
@@ -14848,6 +15677,44 @@ Report generated by Racks Resale Management System
                     <input x-show="bulkEditData.applyListingPrice" type="number" x-model="bulkEditData.listingPrice" step="0.01" placeholder="0.00" style="margin-top: 0.5rem;">
                 </div>
 
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" x-model="bulkEditData.applyGarmentType">
+                        <span class="toggle-switch"></span>
+                        Update Garment Type
+                    </label>
+                    <select x-show="bulkEditData.applyGarmentType" x-model="bulkEditData.garmentType" style="margin-top: 0.5rem; width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px;">
+                        <option value="">Select garment type...</option>
+                        <option value="Shirt">👔 Shirt</option>
+                        <option value="Skirt">👗 Skirt</option>
+                        <option value="Shorts">🩳 Shorts</option>
+                        <option value="Pants">👖 Pants</option>
+                        <option value="Dress">👗 Dress</option>
+                        <option value="Bag">👜 Bag</option>
+                        <option value="Belt">👜 Belt</option>
+                        <option value="Shoes">👠 Shoes</option>
+                        <option value="Jacket">🧥 Jacket</option>
+                        <option value="Sweater">🧥 Sweater</option>
+                        <option value="Accessories">✨ Accessories</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" x-model="bulkEditData.applyTags">
+                        <span class="toggle-switch"></span>
+                        Update Tags
+                    </label>
+                    <div x-show="bulkEditData.applyTags" style="margin-top: 0.5rem;">
+                        <input type="text" x-model="bulkEditData.tags" placeholder="Enter tags separated by commas (e.g., vintage, designer, summer)" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px; margin-bottom: 0.5rem;">
+                        <small style="color: #6b7280; font-size: 0.875rem;">
+                            <i class="fas fa-info-circle"></i>
+                            Tags will be added to existing tags. Use commas to separate multiple tags.
+                        </small>
+                    </div>
+                </div>
+
                 <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="button" @click="showBulkEditModal = false" class="btn btn-secondary" style="flex: 1;">
                         Cancel
@@ -14962,6 +15829,44 @@ Report generated by Racks Resale Management System
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" x-model="bulkEditSoldData.applyGarmentType">
+                        <span class="toggle-switch"></span>
+                        Update Garment Type
+                    </label>
+                    <select x-show="bulkEditSoldData.applyGarmentType" x-model="bulkEditSoldData.garmentType" style="margin-top: 0.5rem; width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px;">
+                        <option value="">Select garment type...</option>
+                        <option value="Shirt">👔 Shirt</option>
+                        <option value="Skirt">👗 Skirt</option>
+                        <option value="Shorts">🩳 Shorts</option>
+                        <option value="Pants">👖 Pants</option>
+                        <option value="Dress">👗 Dress</option>
+                        <option value="Bag">👜 Bag</option>
+                        <option value="Belt">👜 Belt</option>
+                        <option value="Shoes">👠 Shoes</option>
+                        <option value="Jacket">🧥 Jacket</option>
+                        <option value="Sweater">🧥 Sweater</option>
+                        <option value="Accessories">✨ Accessories</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" x-model="bulkEditSoldData.applyTags">
+                        <span class="toggle-switch"></span>
+                        Update Tags
+                    </label>
+                    <div x-show="bulkEditSoldData.applyTags" style="margin-top: 0.5rem;">
+                        <input type="text" x-model="bulkEditSoldData.tags" placeholder="Enter tags separated by commas (e.g., vintage, designer, summer)" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px; margin-bottom: 0.5rem;">
+                        <small style="color: #6b7280; font-size: 0.875rem;">
+                            <i class="fas fa-info-circle"></i>
+                            Tags will be added to existing tags. Use commas to separate multiple tags.
+                        </small>
+                    </div>
+                </div>
+
                 <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="button" @click="showBulkEditSoldModal = false" class="btn btn-secondary" style="flex: 1;">
                         Cancel
@@ -15028,6 +15933,51 @@ Report generated by Racks Resale Management System
             </div>
         </div>
     </div>
+
+    <!-- Cute Robot AI Scan Notification -->
+    <div x-show="showRobotNotification" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 scale-75"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-75"
+         class="ai-robot-notification"
+         :class="{ 'success': robotNotificationState === 'success', 'error': robotNotificationState === 'error' }">
+        
+        <div class="robot-container">
+            <div class="robot-body">
+                🤖
+                <div class="robot-eyes">
+                    <div class="robot-eye"></div>
+                    <div class="robot-eye"></div>
+                </div>
+                <div class="robot-antenna"></div>
+            </div>
+        </div>
+        
+        <div class="scan-message" x-text="robotNotificationState === 'success' ? '🎉 Scan Complete!' : robotNotificationState === 'error' ? '😵 Scan Failed' : '🔍 AI Scanning...'"></div>
+        
+        <div class="scan-details">
+            <span x-show="robotNotificationState === 'scanning'">Analyzing your photos for prices and item details</span>
+            <span x-show="robotNotificationState === 'success'">Found price and item information! Check the suggestions below.</span>
+            <span x-show="robotNotificationState === 'error'">Please try again with clearer photos showing price tags.</span>
+        </div>
+        
+        <div x-show="robotNotificationState === 'scanning'" class="scanning-progress">
+            <div class="scan-dot"></div>
+            <div class="scan-dot"></div>
+            <div class="scan-dot"></div>
+        </div>
+        
+        <div x-show="robotNotificationState === 'success'" class="success-sparkles">
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
+            <div class="sparkle">💫</div>
+            <div class="sparkle">🌟</div>
+        </div>
+    </div>
+
 </body>
 </html>
 
