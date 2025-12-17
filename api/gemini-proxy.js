@@ -32,9 +32,14 @@ export default async function handler(req, res) {
     // Get your API key from environment variable (set in Vercel dashboard)
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
     
+    console.log('Proxy called, API key exists:', !!GEMINI_API_KEY);
+    
     if (!GEMINI_API_KEY) {
-      return res.status(500).json({ error: 'API key not configured' });
+      console.error('API key not found in environment');
+      return res.status(500).json({ error: 'API key not configured on server' });
     }
+
+    console.log('Forwarding request to Gemini API...');
 
     // Forward the request to Gemini API
     const response = await fetch(
@@ -49,16 +54,23 @@ export default async function handler(req, res) {
       }
     );
 
+    console.log('Gemini response status:', response.status);
+
     const data = await response.json();
 
     if (!response.ok) {
+      console.error('Gemini API error response:', data);
       return res.status(response.status).json(data);
     }
 
+    console.log('Gemini API success, candidates:', data.candidates?.length || 0);
     return res.status(200).json(data);
   } catch (error) {
-    console.error('Gemini API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('Proxy error:', error.message);
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      message: error.message 
+    });
   }
 }
 
