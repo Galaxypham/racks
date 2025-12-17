@@ -7,10 +7,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Add CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Add CORS headers (allow requests from GitHub Pages)
+  const allowedOrigins = [
+    'https://galaxypham.github.io',
+    'http://localhost:3000',
+    'http://127.0.0.1:5500' // For local testing
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.some(allowed => origin?.startsWith(allowed))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   // Handle preflight
   if (req.method === 'OPTIONS') {
