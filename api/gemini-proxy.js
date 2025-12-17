@@ -2,12 +2,7 @@
 // This proxies requests to Gemini API while keeping your API key secure
 
 export default async function handler(req, res) {
-  // Only allow POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Add CORS headers (allow requests from GitHub Pages)
+  // Add CORS headers FIRST (allow requests from GitHub Pages)
   const allowedOrigins = [
     'https://galaxypham.github.io',
     'http://localhost:3000',
@@ -17,15 +12,23 @@ export default async function handler(req, res) {
   const origin = req.headers.origin;
   if (allowedOrigins.some(allowed => origin?.startsWith(allowed))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    // Allow any origin for now (you can restrict later)
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
   }
   
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // Handle preflight
+  // Handle preflight (OPTIONS request comes BEFORE POST)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  // Only allow POST requests for actual API calls
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
